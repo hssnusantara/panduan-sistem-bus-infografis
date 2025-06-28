@@ -186,7 +186,7 @@
                                 </div>
                             </div>
                             <div class="h-8 w-0.5 bg-slate-400 mx-auto"></div>
-                            <div class="mt-4 font-bold text-lg text-green-600">🔌 KELUARAN KE PERANGKAT/BEBAN (+24V)</div>
+                            <div class="mt-4 font-bold text-lg text-green-600">� KELUARAN KE PERANGKAT/BEBAN (+24V)</div>
                             
                             <div class="absolute text-xs font-semibold text-slate-600" style="left:10%; top: 60%;">🔑<br>SUMBER<br>PEMICU<br>(+24V)</div>
                             <div class="absolute" style="left:21%; top: 68%;"><div class="h-10 w-0.5 bg-slate-400"></div></div>
@@ -295,7 +295,7 @@
                     </div>
 
                     <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
-                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Penjelasan Kode Error EDC ✨</h3>
+                        <h3 class="2xl font-bold text-center mb-6 text-[#0077B6]">Penjelasan Kode Error EDC ✨</h3>
                         <p class="text-slate-600 mb-4">Masukkan kode error atau deskripsi masalah singkat dari perangkat HCCTG P18-Q Anda untuk mendapatkan penjelasan dan saran *troubleshooting* awal.</p>
                         <div class="flex flex-col sm:flex-row gap-4 items-center mb-4">
                             <label for="errorCodeInput" class="text-slate-700 font-medium">Kode Error / Deskripsi:</label>
@@ -309,7 +309,7 @@
                     </div>
 
                     <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
-                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Saran Konfigurasi Perangkat EDC ✨</h3>
+                        <h3 class="2xl font-bold text-center mb-6 text-[#0077B6]">Saran Konfigurasi Perangkat EDC ✨</h3>
                         <p class="text-slate-600 mb-4">Tanyakan tentang konfigurasi umum atau best practice untuk perangkat EDC HCCTG P18-Q.</p>
                         <textarea id="edcConfigPrompt" rows="4" placeholder="Contoh: Apa saja pengaturan penting untuk pembacaan kartu NFC yang optimal?" class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
                         <button id="getEdcConfigSuggestion" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Saran Konfigurasi ✨</button>
@@ -320,7 +320,7 @@
                     </div>
 
                     <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
-                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Ringkasan Data Transaksi Harian ✨</h3>
+                        <h3 class="2xl font-bold text-center mb-6 text-[#0077B6]">Ringkasan Data Transaksi Harian ✨</h3>
                         <p class="text-slate-600 mb-4">Masukkan data transaksi harian (misalnya, "NFC: 15x, QRIS: 20x, Chip: 5x") untuk mendapatkan ringkasan kinerja.</p>
                         <textarea id="transactionSummaryPrompt" rows="4" placeholder="Contoh: 'Pagi: 10x NFC, 5x QRIS. Siang: 20x NFC, 10x QRIS. Malam: 5x NFC, 2x Chip.'" class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
                         <button id="getDailyTransactionSummary" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Ringkasan ✨</button>
@@ -335,7 +335,7 @@
         </main>
         
         <footer class="text-center mt-12 md:mt-16 pt-8 border-t border-[#90E0EF]">
-            <h3 class="text-xl font-bold text-[#023E8A]">Keselamatan Adalah Prioritas Utama</h3>
+            <h3 class="xl font-bold text-[#023E8A]">Keselamatan Adalah Prioritas Utama</h3>
             <p class="mt-2 text-[#0077B6]">Selalu lepaskan terminal negatif aki sebelum memulai pekerjaan kelistrikan. Bekerja dengan cerdas, bekerja dengan aman.</p>
         </footer>
     </div>
@@ -404,6 +404,13 @@
             }
         });
 
+        // =====================================================================
+        // Gemini API Integrations - IMPORTANT: REPLACE "YOUR_GEMINI_API_KEY"
+        // Get your API Key from Google AI Studio: https://makersuite.google.com/
+        // =====================================================================
+        const GEMINI_API_KEY = "AIzaSyBwezegTPTQtHb4NnTncJWoOmDJmKmaEJk"; 
+        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
         // Gemini API Integration 1: Optimal Cable and Fuse Recommender
         const getRecommendationBtn = document.getElementById('getRecommendation');
         const inputCurrent = document.getElementById('inputCurrent');
@@ -430,11 +437,9 @@
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
-            const apiKey = ""; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch(GEMINI_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -448,6 +453,7 @@
                     resultContent.textContent = 'Maaf, tidak dapat menghasilkan saran. Silakan coba lagi.';
                 }
             } catch (error) {
+                console.error("Error calling Gemini API for fuse recommendation:", error);
                 resultContent.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
             } finally {
                 loadingIndicator.classList.add('hidden');
@@ -477,11 +483,9 @@
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
-            const apiKey = ""; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch(GEMINI_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -495,7 +499,8 @@
                     errorResultContent.textContent = 'Maaf, tidak dapat menganalisis masalah. Silakan coba lagi.';
                 }
             } catch (error) {
-                errorResultContent.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+                console.error("Error calling Gemini API for error explanation:", error);
+                resultContent.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
             } finally {
                 loadingError.classList.add('hidden');
             }
@@ -524,11 +529,9 @@
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
-            const apiKey = ""; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch(GEMINI_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -542,6 +545,7 @@
                     circuitResultContentDiv.textContent = 'Maaf, tidak dapat menghasilkan saran desain. Silakan coba lagi.';
                 }
             } catch (error) {
+                console.error("Error calling Gemini API for circuit design:", error);
                 circuitResultContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
             } finally {
                 loadingCircuitDiv.classList.add('hidden');
@@ -571,11 +575,9 @@
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
-            const apiKey = ""; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch(GEMINI_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -589,6 +591,7 @@
                     edcConfigResultContentDiv.textContent = 'Maaf, tidak dapat menghasilkan saran konfigurasi. Silakan coba lagi.';
                 }
             } catch (error) {
+                console.error("Error calling Gemini API for EDC config:", error);
                 edcConfigResultContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
             } finally {
                 loadingEdcConfigDiv.classList.add('hidden');
@@ -618,11 +621,9 @@
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
-            const apiKey = ""; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch(GEMINI_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -636,6 +637,7 @@
                     electricalResultContentDiv.textContent = 'Maaf, tidak dapat menganalisis masalah kelistrikan. Silakan coba lagi.';
                 }
             } catch (error) {
+                console.error("Error calling Gemini API for electrical troubleshoot:", error);
                 electricalResultContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
             } finally {
                 loadingElectricalDiv.classList.add('hidden');
@@ -665,11 +667,9 @@
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
-            const apiKey = ""; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
             try {
-                const response = await fetch(apiUrl, {
+                const response = await fetch(GEMINI_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -683,6 +683,7 @@
                     transactionSummaryContentDiv.textContent = 'Maaf, tidak dapat meringkas data transaksi. Silakan coba lagi.';
                 }
             } catch (error) {
+                console.error("Error calling Gemini API for transaction summary:", error);
                 transactionSummaryContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
             } finally {
                 loadingTransactionSummaryDiv.classList.add('hidden');
@@ -692,3 +693,4 @@
 
 </body>
 </html>
+�
