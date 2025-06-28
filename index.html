@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografis Panduan Sistem Bus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Brilliant Blues -->
+    <!-- Application Structure Plan: The infographic is structured as a top-to-bottom narrative scroll, guiding the user from the foundational system (Power) to more applied systems (Payment). This linear flow mimics a logical learning path for a technician. Key information is presented in visually distinct cards using a grid layout, mixing large-type statistics, custom diagrams built with HTML/CSS, and data charts. This design avoids dense text blocks and uses visual hierarchy to make critical information like wiring diagrams and key specs immediately scannable, which is more effective for a field guide than a linear text document. -->
+    <!-- Visualization & Content Choices: 
+    - Report Info: Relay Function -> Goal: Inform -> Viz/Presentation Method: Custom HTML/CSS diagram with icons. Interaction: None. Justification: A static, clear visual is more effective for explaining a core concept than text alone. Library/Method: HTML/Tailwind CSS.
+    - Report Info: Tools Required -> Goal: Inform/Organize -> Viz/Presentation Method: Donut Chart. Interaction: Hover tooltips. Justification: Quickly visualizes the composition of essential tools. Library/Method: Chart.js.
+    - Report Info: HCCTG P18-Q Key Specs -> Goal: Inform/Compare -> Viz/Presentation Method: Icon-based feature list with large numbers. Interaction: None. Justification: Highlights the most critical specifications for quick reference. Library/Method: HTML/Tailwind CSS.
+    - Report Info: Installation Processes -> Goal: Organize -> Viz/Presentation Method: Numbered step-by-step visual guides using flexbox. Interaction: None. Justification: Breaks down complex procedures into simple, sequential steps. Library/Method: HTML/Tailwind CSS.
+    - New Feature: Optimal Cable and Fuse Recommender -> Goal: Provide practical safety advice for electrical installations -> Viz/Presentation: Text output based on user input. Interaction: Number inputs, button click, LLM API call. Justification: Leverages LLM for practical planning, directly assisting technicians with safety-critical calculations. Library/Method: Vanilla JS, Gemini API.
+    - New Feature: Common Error Code Explainer -> Goal: Aid in diagnosing payment system issues -> Viz/Presentation: Text output based on user input. Interaction: Text input, button click, LLM API call. Justification: Uses LLM for problem-solving, enhancing troubleshooting capabilities for common errors. Library/Method: Vanilla JS, Gemini API.
+    - New Feature: Simple Circuit Design Suggestion -> Goal: Help in basic circuit planning for accessory integration -> Viz/Presentation: Text output based on user input. Interaction: Textarea input, button click, LLM API call. Justification: Provides quick conceptual electrical design assistance. Library/Method: Vanilla JS, Gemini API.
+    - New Feature: EDC Configuration Tips -> Goal: Offer guidance on setting up payment device parameters -> Viz/Presentation: Text output based on user input. Interaction: Textarea input, button click, LLM API call. Justification: Assists technicians with device setup and optimization. Library/Method: Vanilla JS, Gemini API.
+    - New Feature: Troubleshooting General Electrical Issues -> Goal: Provide diagnostic help for broader electrical problems beyond just fuses/cables -> Viz/Presentation: Text output based on user input. Interaction: Textarea input, button click, LLM API call. Justification: Expands the troubleshooting capabilities of the power section. Library/Method: Vanilla JS, Gemini API.
+    - New Feature: Daily Transaction Data Summary -> Goal: Offer insights into transaction performance -> Viz/Presentation: Text summary based on simulated data input. Interaction: Textarea input, button click, LLM API call. Justification: Provides quick data analysis capability relevant to the payment system. Library/Method: Vanilla JS, Gemini API.
+    - Integrated Feature: Electrical Schematics -> Goal: Provide detailed visual reference for wiring -> Viz/Presentation: Custom HTML/CSS diagrams. Interaction: None. Justification: Directly embeds critical wiring diagrams for easy reference within the relevant section. Library/Method: HTML/Tailwind CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f0f9ff; }
+        .bg-glass { background-color: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); }
+        .kpi-box { background: linear-gradient(135deg, #0096C7, #0077B6); }
+        .flow-line { content: ''; position: absolute; top: 50%; left: 100%; width: 2rem; height: 2px; background-color: #90E0EF; }
+        .flow-line-vertical { content: ''; position: absolute; top: 100%; left: 50%; width: 2px; height: 2rem; background-color: #90E0EF; transform: translateX(-50%); }
+
+        /* Styles from bus_systems_schematics */
+        .schematic-box { border: 1px solid #cbd5e1; padding: 1rem; border-radius: 0.5rem; position: relative; background-color: #ffffff; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .pin-label { background-color: #f8fafc; padding: 0 0.25rem; font-size: 0.75rem; font-weight: 600; color: #475569; }
+        .text-blue-primary-schematic { color: #023E8A; } /* Renamed to avoid conflict */
+        .text-blue-secondary-schematic { color: #0077B6; } /* Renamed to avoid conflict */
+        .border-blue-primary-schematic { border-color: #0077B6; } /* Renamed to avoid conflict */
+        .border-teal-schematic { border-color: #48CAE4; } /* Renamed to avoid conflict */
+        .bg-blue-light-schematic { background-color: #CAF0F8; } /* Renamed to avoid conflict */
+        .bg-blue-dark-schematic { background-color: #0077B6; } /* Renamed to avoid conflict */
+    </style>
+</head>
+<body class="text-slate-700">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        
+        <header class="text-center mb-12 md:mb-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#023E8A]">Panduan Visual Sistem Bus</h1>
+            <p class="mt-4 text-lg text-[#0077B6]">Infografis untuk Pemasangan & Perawatan Sistem Daya dan Pembayaran.</p>
+        </header>
+
+        <main class="space-y-16">
+
+            <section id="power">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[#023E8A]">BAGIAN 1: Fondasi Daya - Instalasi Relay Aman</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6 flex flex-col md:flex-row items-center gap-6">
+                        <div class="flex-shrink-0">
+                            <div class="w-40 h-40 bg-[#CAF0F8] rounded-full flex items-center justify-center text-[#023E8A] text-6xl font-bold">4</div>
+                        </div>
+                        <div class="flex-grow">
+                             <h3 class="text-2xl font-bold text-[#0077B6]">Anatomi Relay 4 Kaki</h3>
+                             <p class="mt-2 mb-4 text-slate-600">Relay adalah sakelar otomatis yang melindungi sistem kelistrikan bus. Sinyal kecil dari pin 86 mengontrol aliran daya besar dari pin 30 ke 87.</p>
+                             <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div class="flex items-center"><span class="font-mono font-bold text-lg text-white bg-[#0096C7] w-8 h-8 rounded-md flex items-center justify-center mr-2">30</span> Input Daya Utama</div>
+                                <div class="flex items-center"><span class="font-mono font-bold text-lg text-white bg-[#0096C7] w-8 h-8 rounded-md flex items-center justify-center mr-2">87</span> Output ke Perangkat</div>
+                                <div class="flex items-center"><span class="font-mono font-bold text-lg text-white bg-[#0096C7] w-8 h-8 rounded-md flex items-center justify-center mr-2">86</span> Sinyal Pemicu (+)</div>
+                                <div class="flex items-center"><span class="font-mono font-bold text-lg text-white bg-[#0096C7] w-8 h-8 rounded-md flex items-center justify-center mr-2">85</span> Ground / Massa (-)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-box text-white rounded-2xl shadow-lg p-6 flex flex-col justify-center items-center text-center">
+                         <h3 class="text-2xl font-bold">Gunakan Sekring!</h3>
+                         <p class="text-5xl font-extrabold my-2">125%</p>
+                         <p class="text-sm text-[#ADE8F4]">Ukuran sekring aman adalah 125% dari total arus perangkat untuk memberi ruang gerak dan mencegah panas berlebih.</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-lg p-6">
+                         <h3 class="text-2xl font-bold text-center mb-4 text-[#0077B6]">Alat Kerja Esensial</h3>
+                        <div class="chart-container mx-auto relative h-64 w-full max-w-sm">
+                            <canvas id="toolsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Alur Instalasi Relay 24V</h3>
+                        <div class="flex flex-col md:flex-row justify-around items-center text-center gap-8 md:gap-4">
+                            <div class="relative flex flex-col items-center">
+                                <div class="w-24 h-24 bg-[#CAF0F8] rounded-full flex items-center justify-center"><span class="text-4xl">⚡️</span></div>
+                                <p class="mt-2 font-bold">1. Sumber 24V</p>
+                                <p class="text-xs text-slate-500">Ambil dari aki</p>
+                                <div class="hidden md:block flow-line"></div>
+                                <div class="md:hidden flow-line-vertical"></div>
+                            </div>
+                             <div class="relative flex flex-col items-center">
+                                <div class="w-24 h-24 bg-[#ADE8F4] rounded-full flex items-center justify-center"><span class="text-4xl">🛡️</span></div>
+                                <p class="mt-2 font-bold">2. Pasang Sekring</p>
+                                <p class="text-xs text-slate-500">Wajib untuk keamanan</p>
+                                <div class="hidden md:block flow-line"></div>
+                                <div class="md:hidden flow-line-vertical"></div>
+                            </div>
+                             <div class="relative flex flex-col items-center">
+                                <div class="w-24 h-24 bg-[#90E0EF] rounded-full flex items-center justify-center"><span class="text-4xl">🔄</span></div>
+                                <p class="mt-2 font-bold">3. Sambung Relay</p>
+                                <p class="text-xs text-slate-500">Sesuai pin 30,85,86,87</p>
+                                <div class="hidden md:block flow-line"></div>
+                                 <div class="md:hidden flow-line-vertical"></div>
+                            </div>
+                             <div class="relative flex flex-col items-center">
+                                <div class="w-24 h-24 bg-[#48CAE4] rounded-full flex items-center justify-center"><span class="text-4xl">🔌</span></div>
+                                <p class="mt-2 font-bold">4. Hubungkan Beban</p>
+                                <p class="text-xs text-slate-500">Ke perangkat tujuan</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-3 bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Saran Ukuran Kabel & Sekring ✨</h3>
+                        <p class="text-slate-600 mb-4">Dapatkan rekomendasi spesifikasi kelistrikan yang aman untuk perangkat Anda.</p>
+                        <div class="flex flex-col sm:flex-row gap-4 items-center mb-4">
+                            <label for="inputCurrent" class="text-slate-700 font-medium">Arus Total (Ampere):</label>
+                            <input type="number" id="inputCurrent" placeholder="Ex: 10" class="flex-grow p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6]">
+                            <label for="inputVoltage" class="text-slate-700 font-medium">Tegangan (Volt):</label>
+                            <select id="inputVoltage" class="p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6]">
+                                <option value="12">12V</option>
+                                <option value="24">24V</option>
+                            </select>
+                            <button id="getRecommendation" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Saran ✨</button>
+                        </div>
+                        <div id="recommendationResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                            <div id="loadingIndicator" class="text-center hidden">Memproses...</div>
+                            <div id="resultContent"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="lg:col-span-3 bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Saran Desain Rangkaian Sederhana ✨</h3>
+                        <p class="text-slate-600 mb-4">Jelaskan kebutuhan rangkaian sederhana Anda (misalnya: "nyalakan lampu saat pintu bus terbuka"), dan Gemini akan memberikan saran desain dasar.</p>
+                        <textarea id="circuitDesignPrompt" rows="4" placeholder="Contoh: Saya ingin lampu kabin menyala otomatis ketika bus berhenti dan pintu terbuka." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                        <button id="getCircuitDesign" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Saran Desain ✨</button>
+                        <div id="circuitDesignResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                            <div id="loadingCircuit" class="text-center hidden">Memproses...</div>
+                            <div id="circuitResultContent"></div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-3 bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Troubleshooting Masalah Kelistrikan Umum ✨</h3>
+                        <p class="text-slate-600 mb-4">Masukkan gejala masalah kelistrikan yang Anda alami di bus (misalnya, "Lampu tidak menyala", "Sekring sering putus"), dan Gemini akan memberikan potensi penyebab serta langkah perbaikan.</p>
+                        <textarea id="electricalTroubleshootPrompt" rows="4" placeholder="Contoh: Lampu interior bus redup saat mesin dihidupkan, tetapi terang saat mesin mati." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                        <button id="getElectricalTroubleshoot" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Solusi ✨</button>
+                        <div id="electricalTroubleshootResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                            <div id="loadingElectrical" class="text-center hidden">Memproses...</div>
+                            <div id="electricalResultContent"></div>
+                        </div>
+                    </div>
+
+                     <!-- Start of Schematics from bus_systems_schematics -->
+                    <div class="lg:col-span-3 bg-white p-6 rounded-2xl shadow-lg">
+                        <h2 class="text-2xl font-bold text-center mb-6 text-blue-secondary-schematic">Instalasi 24V (Langsung)</h2>
+                        <div class="schematic-box text-center text-sm mb-4">
+                            <div class="mb-4 font-bold text-lg text-red-600">⚡️ SUMBER DAYA BUS (+24V)</div>
+                            <div class="h-8 w-0.5 bg-slate-400 mx-auto"></div>
+                            <div class="mx-auto my-1 p-2 bg-blue-light-schematic rounded-md">🛡️ SEKRING (Contoh: 10A)</div>
+                            <div class="h-8 w-0.5 bg-slate-400 mx-auto"></div>
+                            <div class="border-2 border-blue-primary-schematic rounded-lg p-4 relative">
+                                <span class="absolute -top-3 bg-white px-2 font-bold text-blue-secondary-schematic text-base">RELAY 24V (4 Kaki)</span>
+                                <div class="flex justify-between items-center h-20">
+                                    <div class="text-left">
+                                        <div class="pin-label">30</div>
+                                        <div class="h-6 w-0.5 bg-slate-400 ml-2 mt-1"></div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="pin-label">87</div>
+                                        <div class="h-6 w-0.5 bg-slate-400 mr-2 mt-1"></div>
+                                    </div>
+                                </div>
+                                <div class="flex justify-between items-center h-10 mt-2">
+                                    <div class="text-left"><div class="pin-label">86</div></div>
+                                    <div class="text-right"><div class="pin-label">85</div></div>
+                                </div>
+                            </div>
+                            <div class="h-8 w-0.5 bg-slate-400 mx-auto"></div>
+                            <div class="mt-4 font-bold text-lg text-green-600">🔌 KELUARAN KE PERANGKAT/BEBAN (+24V)</div>
+                            
+                            <div class="absolute text-xs font-semibold text-slate-600" style="left:10%; top: 60%;">🔑<br>SUMBER<br>PEMICU<br>(+24V)</div>
+                            <div class="absolute" style="left:21%; top: 68%;"><div class="h-10 w-0.5 bg-slate-400"></div></div>
+                            <div class="absolute" style="left:21%; top: 80%; border-top: 1px solid #94a3b8; width: 60px;"></div>
+
+                            <div class="absolute text-xs font-semibold text-slate-600" style="right:10%; top: 60%;">GND<br>MASSA<br>BUS (-)</div>
+                            <div class="absolute" style="right:21%; top: 68%;"><div class="h-10 w-0.5 bg-slate-400"></div></div>
+                            <div class="absolute" style="right:21%; top: 80%; border-top: 1px solid #94a3b8; width: 60px;"></div>
+                        </div>
+                        <div class="mt-6 text-base text-slate-600">
+                            <h3 class="font-bold text-blue-secondary-schematic mb-2">Penjelasan:</h3>
+                            <p>Dalam skema ini, listrik 24V dari bus langsung masuk ke Pin 30 relay melalui sekring untuk perlindungan. Pin 85 terhubung ke ground bus. Sinyal pemicu dari kunci kontak atau sakelar masuk ke Pin 86. Ketika Pin 86 aktif, relay akan terhubung, mengalirkan daya 24V ke perangkat tambahan dari Pin 87. Ini adalah instalasi standar untuk sistem 24V.</p>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-3 bg-white p-6 rounded-2xl shadow-lg">
+                        <h2 class="text-2xl font-bold text-center mb-6 text-blue-secondary-schematic">Instalasi 12V (dari Bus 24V)</h2>
+                        <div class="schematic-box text-center text-sm mb-4">
+                            <div class="mb-2 font-bold text-lg text-red-600">⚡️ SUMBER DAYA BUS (+24V)</div>
+                            <div class="h-4 w-0.5 bg-slate-400 mx-auto"></div>
+                            <div class="mx-auto my-1 p-2 bg-blue-light-schematic rounded-md">🛡️ SEKRING UTAMA (Contoh: 15A)</div>
+                            <div class="h-4 w-0.5 bg-slate-400 mx-auto"></div>
+                            <div class="border rounded-md p-2 bg-blue-light-schematic text-blue-primary-schematic font-semibold text-base">🔄 ALAT PENGUBAH TEGANGAN DC-DC (24V jadi 12V)</div>
+                            <div class="h-4 w-0.5 bg-slate-400 mx-auto"></div>
+                            <div class="mx-auto my-1 p-2 bg-blue-light-schematic rounded-md">🛡️ SEKRING BEBAN 12V (Contoh: 10A)</div>
+                            <div class="h-4 w-0.5 bg-slate-400 mx-auto"></div>
+                            <div class="border-2 border-teal-schematic rounded-lg p-4 relative">
+                                <span class="absolute -top-3 bg-white px-2 font-bold text-teal-schematic text-base">RELAY 12V (4 Kaki)</span>
+                                <div class="flex justify-between items-center h-16">
+                                    <div class="text-left"><div class="pin-label">30</div><div class="h-4 w-0.5 bg-slate-400 ml-2 mt-1"></div></div>
+                                    <div class="text-right"><div class="pin-label">87</div><div class="h-4 w-0.5 bg-slate-400 mr-2 mt-1"></div></div>
+                                </div>
+                                <div class="flex justify-between items-center h-8 mt-1">
+                                    <div class="text-left"><div class="pin-label">86</div></div>
+                                    <div class="text-right"><div class="pin-label">85</div></div>
+                                </div>
+                            </div>
+                            <div class="h-4 w-0.5 bg-slate-400 mx-auto"></div>
+                            <div class="mt-4 font-bold text-lg text-green-600">🔌 KELUARAN KE PERANGKAT/BEBAN (+12V)</div>
+                            
+                            <div class="absolute text-xs font-semibold text-slate-600" style="left:10%; top: 78%;">🔑<br>SUMBER<br>PEMICU<br>(+12V)</div>
+                            <div class="absolute" style="left:21%; top: 85%;"><div class="h-10 w-0.5 bg-slate-400"></div></div>
+                            <div class="absolute" style="left:21%; top: 97%; border-top: 1px solid #94a3b8; width: 60px;"></div>
+
+                            <div class="absolute text-xs font-semibold text-slate-600" style="right:10%; top: 78%;">GND<br>MASSA<br>BUS (-)</div>
+                            <div class="absolute" style="right:21%; top: 85%;"><div class="h-10 w-0.5 bg-slate-400"></div></div>
+                            <div class="absolute" style="right:21%; top: 97%; border-top: 1px solid #94a3b8; width: 60px;"></div>
+                        </div>
+                        <div class="mt-6 text-base text-slate-600">
+                            <h3 class="font-bold text-blue-secondary-schematic mb-2">Penjelasan:</h3>
+                            <p>Untuk perangkat 12V pada bus 24V, Anda memerlukan alat pengubah tegangan DC-DC (24V ke 12V). Daya 24V dari bus masuk ke alat pengubah, kemudian keluaran 12V-nya disekring lagi sebelum masuk ke Pin 30 relay 12V. Pin 85 ke ground, dan Pin 86 menerima pemicu 12V. Pin 87 akan menyalurkan daya 12V ke perangkat.</p>
+                        </div>
+                    </div>
+                    <!-- End of Schematics from bus_systems_schematics -->
+
+                </div>
+            </section>
+            
+            <section id="payment">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[#023E8A]">BAGIAN 2: Transaksi Cepat - EDC HCCTG P18-Q</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                     <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                         <span class="text-5xl">⚡️</span>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Input Daya Fleksibel</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">9-48V</p>
+                         <p class="text-sm text-slate-500">Langsung cocok untuk sistem 12V dan 24V tanpa konverter tambahan.</p>
+                     </div>
+                      <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                         <span class="text-5xl">💳</span>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Multi-Pembayaran</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">3-in-1</p>
+                         <p class="text-sm text-slate-500">Mendukung Tap (NFC), Chip (IC Card), dan Pindai (QR Code).</p>
+                     </div>
+                      <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                         <span class="text-5xl">🌡️</span>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Tahan Banting</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">IP54</p>
+                         <p class="text-sm text-slate-500">Tahan debu dan percikan air, ideal untuk penggunaan di lingkungan bus.</p>
+                     </div>
+                      <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                         <span class="text-5xl">📶</span>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Selalu Terhubung</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">4G</p>
+                         <p class="text-sm text-slate-500">Dengan Dual SIM untuk koneksi data transaksi yang stabil dan andal.</p>
+                     </div>
+
+                    <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-center mb-4 text-[#0077B6]">Langkah Pemasangan Fisik EDC</h3>
+                        <ol class="grid md:grid-cols-3 gap-6 text-center">
+                            <li class="border-t-4 border-[#90E0EF] pt-4">
+                                <span class="text-3xl font-bold text-[#0096C7]">1</span>
+                                <h4 class="font-bold mt-2">Pilih Lokasi</h4>
+                                <p class="text-sm text-slate-500">Pasang di tiang dekat pintu masuk yang kokoh dan mudah dijangkau.</p>
+                            </li>
+                             <li class="border-t-4 border-[#48CAE4] pt-4">
+                                <span class="text-3xl font-bold text-[#0077B6]">2</span>
+                                <h4 class="font-bold mt-2">Sambung Listrik</h4>
+                                <p class="text-sm text-slate-500">Hubungkan kabel daya (+/-) ke sumber listrik bus yang sudah diberi sekring.</p>
+                            </li>
+                             <li class="border-t-4 border-[#0077B6] pt-4">
+                                <span class="text-3xl font-bold text-[#023E8A]">3</span>
+                                <h4 class="font-bold mt-2">Uji & Amankan</h4>
+                                <p class="text-sm text-slate-500">Nyalakan, uji transaksi, lalu rapikan semua kabel agar aman.</p>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Penjelasan Kode Error EDC ✨</h3>
+                        <p class="text-slate-600 mb-4">Masukkan kode error atau deskripsi masalah singkat dari perangkat HCCTG P18-Q Anda untuk mendapatkan penjelasan dan saran *troubleshooting* awal.</p>
+                        <div class="flex flex-col sm:flex-row gap-4 items-center mb-4">
+                            <label for="errorCodeInput" class="text-slate-700 font-medium">Kode Error / Deskripsi:</label>
+                            <input type="text" id="errorCodeInput" placeholder="Ex: E01 / Transaksi Ditolak" class="flex-grow p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6]">
+                            <button id="explainError" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Jelaskan Error ✨</button>
+                        </div>
+                        <div id="errorExplanationResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                            <div id="loadingError" class="text-center hidden">Memproses...</div>
+                            <div id="errorResultContent"></div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Saran Konfigurasi Perangkat EDC ✨</h3>
+                        <p class="text-slate-600 mb-4">Tanyakan tentang konfigurasi umum atau best practice untuk perangkat EDC HCCTG P18-Q.</p>
+                        <textarea id="edcConfigPrompt" rows="4" placeholder="Contoh: Apa saja pengaturan penting untuk pembacaan kartu NFC yang optimal?" class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                        <button id="getEdcConfigSuggestion" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Saran Konfigurasi ✨</button>
+                        <div id="edcConfigResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                            <div id="loadingEdcConfig" class="text-center hidden">Memproses...</div>
+                            <div id="edcConfigResultContent"></div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Ringkasan Data Transaksi Harian ✨</h3>
+                        <p class="text-slate-600 mb-4">Masukkan data transaksi harian (misalnya, "NFC: 15x, QRIS: 20x, Chip: 5x") untuk mendapatkan ringkasan kinerja.</p>
+                        <textarea id="transactionSummaryPrompt" rows="4" placeholder="Contoh: 'Pagi: 10x NFC, 5x QRIS. Siang: 20x NFC, 10x QRIS. Malam: 5x NFC, 2x Chip.'" class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                        <button id="getDailyTransactionSummary" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Ringkasan ✨</button>
+                        <div id="transactionSummaryResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                            <div id="loadingTransactionSummary" class="text-center hidden">Memproses...</div>
+                            <div id="transactionSummaryContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+        
+        <footer class="text-center mt-12 md:mt-16 pt-8 border-t border-[#90E0EF]">
+            <h3 class="text-xl font-bold text-[#023E8A]">Keselamatan Adalah Prioritas Utama</h3>
+            <p class="mt-2 text-[#0077B6]">Selalu lepaskan terminal negatif aki sebelum memulai pekerjaan kelistrikan. Bekerja dengan cerdas, bekerja dengan aman.</p>
+        </footer>
+    </div>
+
+    <script>
+        const chartTooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        const wrapLabel = (label, maxLength) => {
+            if (label.length <= maxLength) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine += ' ' + word;
+                }
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const toolsCtx = document.getElementById('toolsChart').getContext('2d');
+        new Chart(toolsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Multimeter', 'Tang Krimping', 'Konektor Set', 'Kabel & Sekring', 'Isolasi/Shrink Tube'],
+                datasets: [{
+                    label: 'Alat Kerja',
+                    data: [25, 20, 15, 25, 15],
+                    backgroundColor: ['#0077B6', '#0096C7', '#00B4D8', '#48CAE4', '#90E0EF'],
+                    borderColor: '#fff',
+                    borderWidth: 2,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { size: 10 }
+                        }
+                    },
+                    tooltip: chartTooltipConfig.plugins.tooltip
+                }
+            }
+        });
+
+        // Gemini API Integration 1: Optimal Cable and Fuse Recommender
+        const getRecommendationBtn = document.getElementById('getRecommendation');
+        const inputCurrent = document.getElementById('inputCurrent');
+        const inputVoltage = document.getElementById('inputVoltage');
+        const recommendationResult = document.getElementById('recommendationResult');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const resultContent = document.getElementById('resultContent');
+
+        getRecommendationBtn.addEventListener('click', async () => {
+            const totalCurrent = parseFloat(inputCurrent.value);
+            const voltage = inputVoltage.value;
+
+            if (isNaN(totalCurrent) || totalCurrent <= 0) {
+                recommendationResult.classList.remove('hidden');
+                resultContent.textContent = 'Harap masukkan arus total yang valid (angka positif).';
+                return;
+            }
+
+            recommendationResult.classList.remove('hidden');
+            loadingIndicator.classList.remove('hidden');
+            resultContent.textContent = '';
+
+            const prompt = `Sebagai ahli kelistrikan kendaraan, berikan rekomendasi ukuran kabel AWG/mm² yang aman dan ukuran fuse (sekring) yang sesuai untuk perangkat dengan total arus ${totalCurrent} Ampere pada sistem ${voltage}V. Sertakan faktor keamanan 1.25x untuk sekring. Jelaskan secara singkat alasan di balik rekomendasi tersebut. Berikan dalam format paragraf singkat dan to the point.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    resultContent.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    resultContent.textContent = 'Maaf, tidak dapat menghasilkan saran. Silakan coba lagi.';
+                }
+            } catch (error) {
+                resultContent.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingIndicator.classList.add('hidden');
+            }
+        });
+
+        // Gemini API Integration 2: Common Error Code Explainer
+        const explainErrorBtn = document.getElementById('explainError');
+        const errorCodeInput = document.getElementById('errorCodeInput');
+        const errorExplanationResult = document.getElementById('errorExplanationResult');
+        const loadingError = document.getElementById('loadingError');
+        const errorResultContent = document.getElementById('errorResultContent');
+
+        explainErrorBtn.addEventListener('click', async () => {
+            const errorCode = errorCodeInput.value.trim();
+            if (errorCode === "") {
+                errorExplanationResult.classList.remove('hidden');
+                errorResultContent.textContent = 'Harap masukkan kode error atau deskripsi masalah.';
+                return;
+            }
+
+            errorExplanationResult.classList.remove('hidden');
+            loadingError.classList.remove('hidden');
+            errorResultContent.textContent = '';
+
+            const prompt = `Sebagai teknisi yang menghadapi kode error atau deskripsi masalah '${errorCode}' pada perangkat validator tiket bus HCCTG P18-Q, jelaskan arti dari kode error/masalah ini dan berikan langkah-langkah troubleshooting awal yang dapat saya lakukan di lapangan. Fokus pada kemungkinan penyebab terkait konektivitas (4G/Wi-Fi), pembaca kartu (NFC/IC/QR), atau masalah perangkat keras umum.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    errorResultContent.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    errorResultContent.textContent = 'Maaf, tidak dapat menganalisis masalah. Silakan coba lagi.';
+                }
+            } catch (error) {
+                errorResultContent.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingError.classList.add('hidden');
+            }
+        });
+
+        // Gemini API Integration 3: Simple Circuit Design Suggestion
+        const getCircuitDesignBtn = document.getElementById('getCircuitDesign');
+        const circuitDesignPromptInput = document.getElementById('circuitDesignPrompt');
+        const circuitDesignResultDiv = document.getElementById('circuitDesignResult');
+        const loadingCircuitDiv = document.getElementById('loadingCircuit');
+        const circuitResultContentDiv = document.getElementById('circuitResultContent');
+
+        getCircuitDesignBtn.addEventListener('click', async () => {
+            const userPrompt = circuitDesignPromptInput.value.trim();
+            if (userPrompt === "") {
+                circuitDesignResultDiv.classList.remove('hidden');
+                circuitResultContentDiv.textContent = 'Harap jelaskan kebutuhan rangkaian sederhana Anda.';
+                return;
+            }
+
+            circuitDesignResultDiv.classList.remove('hidden');
+            loadingCircuitDiv.classList.remove('hidden');
+            circuitResultContentDiv.textContent = '';
+
+            const prompt = `Saya ingin merancang rangkaian kelistrikan sederhana pada bus. Kebutuhan saya adalah: "${userPrompt}". Sebagai ahli kelistrikan otomotif, berikan saran desain dasar, komponen kunci yang mungkin dibutuhkan (misalnya relay, sakelar, sensor), dan prinsip kerja singkat rangkaian tersebut.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    circuitResultContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    circuitResultContentDiv.textContent = 'Maaf, tidak dapat menghasilkan saran desain. Silakan coba lagi.';
+                }
+            } catch (error) {
+                circuitResultContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingCircuitDiv.classList.add('hidden');
+            }
+        });
+
+        // Gemini API Integration 4: EDC Configuration Tips
+        const getEdcConfigSuggestionBtn = document.getElementById('getEdcConfigSuggestion');
+        const edcConfigPromptInput = document.getElementById('edcConfigPrompt');
+        const edcConfigResultDiv = document.getElementById('edcConfigResult');
+        const loadingEdcConfigDiv = document.getElementById('loadingEdcConfig');
+        const edcConfigResultContentDiv = document.getElementById('edcConfigResultContent');
+
+        getEdcConfigSuggestionBtn.addEventListener('click', async () => {
+            const userPrompt = edcConfigPromptInput.value.trim();
+            if (userPrompt === "") {
+                edcConfigResultDiv.classList.remove('hidden');
+                edcConfigResultContentDiv.textContent = 'Harap tanyakan tentang konfigurasi yang Anda butuhkan.';
+                return;
+            }
+
+            edcConfigResultDiv.classList.remove('hidden');
+            loadingEdcConfigDiv.classList.remove('hidden');
+            edcConfigResultContentDiv.textContent = '';
+
+            const prompt = `Sebagai ahli konfigurasi perangkat EDC HCCTG P18-Q, berikan saran konfigurasi atau best practice untuk "${userPrompt}". Fokus pada pengaturan penting yang sering diubah atau dioptimalkan.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    edcConfigResultContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    edcConfigResultContentDiv.textContent = 'Maaf, tidak dapat menghasilkan saran konfigurasi. Silakan coba lagi.';
+                }
+            } catch (error) {
+                edcConfigResultContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingEdcConfigDiv.classList.add('hidden');
+            }
+        });
+
+        // Gemini API Integration 5: Troubleshooting General Electrical Issues
+        const getElectricalTroubleshootBtn = document.getElementById('getElectricalTroubleshoot');
+        const electricalTroubleshootPromptInput = document.getElementById('electricalTroubleshootPrompt');
+        const electricalTroubleshootResultDiv = document.getElementById('electricalTroubleshootResult');
+        const loadingElectricalDiv = document.getElementById('loadingElectrical');
+        const electricalResultContentDiv = document.getElementById('electricalResultContent');
+
+        getElectricalTroubleshootBtn.addEventListener('click', async () => {
+            const userPrompt = electricalTroubleshootPromptInput.value.trim();
+            if (userPrompt === "") {
+                electricalTroubleshootResultDiv.classList.remove('hidden');
+                electricalResultContentDiv.textContent = 'Harap masukkan gejala masalah kelistrikan yang Anda alami.';
+                return;
+            }
+
+            electricalTroubleshootResultDiv.classList.remove('hidden');
+            loadingElectricalDiv.classList.remove('hidden');
+            electricalResultContentDiv.textContent = '';
+
+            const prompt = `Saya mengalami masalah kelistrikan pada bus dengan gejala berikut: "${userPrompt}". Sebagai ahli kelistrikan otomotif, berikan potensi penyebab masalah ini dan langkah-langkah troubleshooting awal yang dapat saya lakukan untuk mendiagnosis dan memperbaikinya.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    electricalResultContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    electricalResultContentDiv.textContent = 'Maaf, tidak dapat menganalisis masalah kelistrikan. Silakan coba lagi.';
+                }
+            } catch (error) {
+                electricalResultContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingElectricalDiv.classList.add('hidden');
+            }
+        });
+
+        // Gemini API Integration 6: Daily Transaction Data Summary
+        const getDailyTransactionSummaryBtn = document.getElementById('getDailyTransactionSummary');
+        const transactionSummaryPromptInput = document.getElementById('transactionSummaryPrompt');
+        const transactionSummaryResultDiv = document.getElementById('transactionSummaryResult');
+        const loadingTransactionSummaryDiv = document.getElementById('loadingTransactionSummary');
+        const transactionSummaryContentDiv = document.getElementById('transactionSummaryContent');
+
+        getDailyTransactionSummaryBtn.addEventListener('click', async () => {
+            const userPrompt = transactionSummaryPromptInput.value.trim();
+            if (userPrompt === "") {
+                transactionSummaryResultDiv.classList.remove('hidden');
+                transactionSummaryContentDiv.textContent = 'Harap masukkan data transaksi harian untuk diringkas.';
+                return;
+            }
+
+            transactionSummaryResultDiv.classList.remove('hidden');
+            loadingTransactionSummaryDiv.classList.remove('hidden');
+            transactionSummaryContentDiv.textContent = '';
+
+            const prompt = `Saya memiliki data transaksi harian dari perangkat EDC bus saya. Data mentahnya adalah: "${userPrompt}". Sebagai analis data, berikan ringkasan kinerja transaksi untuk hari ini, termasuk total transaksi, distribusi jenis pembayaran (misalnya, NFC, QRIS, Chip), dan wawasan singkat yang relevan. Format dalam poin-poin atau paragraf singkat.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    transactionSummaryContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    transactionSummaryContentDiv.textContent = 'Maaf, tidak dapat meringkas data transaksi. Silakan coba lagi.';
+                }
+            } catch (error) {
+                transactionSummaryContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingTransactionSummaryDiv.classList.add('hidden');
+            }
+        });
+    </script>
+
+</body>
+</html>
