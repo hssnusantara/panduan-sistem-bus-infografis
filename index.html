@@ -16,16 +16,21 @@
     - Report Info: Tools Required -> Goal: Inform/Organize -> Viz/Presentation Method: Donut Chart. Interaction: Hover tooltips. Justification: Quickly visualizes the composition of essential tools. Library/Method: Chart.js.
     - Report Info: Installation Processes -> Goal: Organize -> Viz/Presentation Method: Numbered step-by-step visual guides using flexbox. Interaction: None. Justification: Breaks down complex procedures into simple, sequential steps. Library/Method: HTML/Tailwind CSS.
     - New Feature: Optimal Cable and Fuse Recommender -> Goal: Provide practical safety advice for electrical installations -> Viz/Presentation: Text output based on user input. Interaction: Number inputs, button click, LLM API call. Justification: Leverages LLM for practical planning, directly assisting technicians with safety-critical calculations. Library/Method: Vanilla JS, Gemini API.
-    - New Feature: Common Error Code Explainer -> Goal: Aid in diagnosing payment system issues -> Viz/Presentation: Text output based on user input. Interaction: Text input, button click, LLM API call. Justification: Uses LLM for problem-solving, enhancing troubleshooting capabilities for common errors. Library/Method: Vanilla JS, Gemini API.
+    - New Feature: Common Error Code Explainer -> Goal: Aid in diagnosing payment system issues -> Viz/Presentation: Text output based on user input. Interaction: Text input, button click, LLM API call. Justification: Uses LLM for problem-solving, enhancing troubleshooting capabilities for common errors. Library: Vanilla JS, Gemini API.
     - New Feature: Simple Circuit Design Suggestion -> Goal: Help in basic circuit planning for accessory integration -> Viz/Presentation: Text output based on user input. Interaction: Textarea input, button click, LLM API call. Justification: Provides quick conceptual electrical design assistance. Library/Method: Vanilla JS, Gemini API.
-    - New Feature: EDC Configuration Tips -> Goal: Offer guidance on setting up payment device parameters -> Viz/Presentation: Text output based on user input. Interaction: Textarea input, button click, LLM API call. Justification: Assists technicians with device setup and optimization. Library/Method: Vanilla JS, Gemini API.
-    - New Feature: Troubleshooting General Electrical Issues -> Goal: Provide diagnostic help for broader electrical problems beyond just fuses/cables -> Viz/Presentation: Text output based on user input. Interaction: Textarea input, button click, LLM API call. Justification: Expands the troubleshooting capabilities of the power section. Library/Method: Vanilla JS, Gemini API.
-    - New Feature: Daily Transaction Data Summary -> Goal: Offer insights into transaction performance -> Viz/Presentation: Text summary based on simulated data input. Interaction: Textarea input, button click, LLM API call. Justification: Provides quick data analysis capability relevant to the payment system. Library/Method: Vanilla JS, Gemini API.
-    - Integrated Feature: Electrical Schematics -> Goal: Provide detailed visual reference for wiring -> Viz/Presentation: Custom HTML/CSS diagrams. Interaction: None. Justification: Directly embeds critical wiring diagrams for easy reference within the relevant section. Library/Method: HTML/Tailwind CSS.
+    - New Feature: EDC Configuration Tips -> Goal: Offer guidance on setting up payment device parameters -> Viz/Presentation: Text output based on user input. Interaction: Textarea input, button click, LLM API call. Justification: Assists technicians with device setup and optimization. Library: Vanilla JS, Gemini API.
+    - New Feature: Troubleshooting General Electrical Issues -> Goal: Provide diagnostic help for broader electrical problems beyond just fuses/cables -> Viz/Presentation: Text output based on user input. Interaction: Textarea input, button click, LLM API call. Justification: Expands the troubleshooting capabilities of the power section. Library: Vanilla JS, Gemini API.
+    - New Feature: Daily Transaction Data Summary -> Goal: Offer insights into transaction performance -> Viz/Presentation: Text summary based on simulated data input. Interaction: Textarea input, button click, LLM API call. Justification: Provides quick data analysis capability relevant to the payment system. Library: Vanilla JS, Gemini API.
+    - Integrated Feature: Electrical Schematics -> Goal: Provide detailed visual reference for wiring -> Viz/Presentation: Custom HTML/CSS diagrams. Interaction: None. Justification: Directly embeds critical wiring diagrams for easy reference within the relevant section. Library: HTML/Tailwind CSS.
     - New Feature: GPS GT08 Troubleshooting (LLM) - for GPS section.
     - New Segment: GPS GT08.
     - New Segment: EDC Cilico CM550X.
     - New Segment: TOB HCCTG P18-Q.
+    - New Feature: Generator Checklist Inspeksi Kelistrikan Pra-Operasi - for Power section.
+    - New Feature: Saran Optimasi Penggunaan Data GPS - for GPS section.
+    - New Feature: Simulasi Skenario Transaksi & Solusi - for EDC Cilico section.
+    - New Feature: Tips Pembersihan & Perawatan Sensor Pembaca Kartu - for TOB HCCTG section.
+    - New Feature: Skema Instalasi GPS GT08 - for GPS section.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -311,6 +316,61 @@
                     </ol>
                 </div>
 
+                <!-- NEW: Skema Instalasi GPS GT08 -->
+                <div class="lg:col-span-3 bg-white p-6 rounded-2xl shadow-lg mt-8">
+                    <h2 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Skema Instalasi GPS GT08</h2>
+                    <div class="schematic-box text-center text-sm mb-4">
+                        <div class="mb-4 font-bold text-lg text-red-600">⚡️ SUMBER DAYA BUS</div>
+                        <div class="flex justify-around items-center my-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-red-200 rounded-full flex items-center justify-center font-bold text-red-700">+</div>
+                                <p class="mt-2 text-xs">Kabel Merah (VCC)</p>
+                            </div>
+                            <div class="w-16 h-0.5 bg-slate-400"></div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-orange-200 rounded-full flex items-center justify-center font-bold text-orange-700">ACC</div>
+                                <p class="mt-2 text-xs">Kabel Oranye (ACC/Ignition)</p>
+                            </div>
+                            <div class="w-16 h-0.5 bg-slate-400"></div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center font-bold text-gray-700">-</div>
+                                <p class="mt-2 text-xs">Kabel Hitam (GND)</p>
+                            </div>
+                        </div>
+
+                        <div class="h-8 w-0.5 bg-slate-400 mx-auto"></div>
+
+                        <div class="border-2 border-[#0077B6] rounded-lg p-4 relative mx-auto" style="width: 80%;">
+                            <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-white px-2 font-bold text-[#0077B6] text-base">GPS Tracker GT08</span>
+                            <div class="flex justify-between items-center h-16">
+                                <div class="text-left">
+                                    <div class="pin-label bg-red-100 text-red-800">VCC (+ Daya)</div>
+                                    <div class="h-6 w-0.5 bg-slate-400 ml-2 mt-1"></div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="pin-label bg-orange-100 text-orange-800">ACC (Ignition)</div>
+                                    <div class="h-6 w-0.5 bg-slate-400 mr-2 mt-1"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-center mt-2">
+                                <div class="text-center">
+                                    <div class="pin-label bg-gray-100 text-gray-800">GND (Massa)</div>
+                                    <div class="h-6 w-0.5 bg-slate-400 mx-auto mt-1"></div>
+                                </div>
+                            </div>
+                            <div class="mt-4 text-xs text-slate-600">
+                                <p>Pastikan SIM Card terpasang dengan benar di slot yang tersedia.</p>
+                                <p>Cek lampu indikator status (GPS, GSM) setelah pemasangan.</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 text-base text-slate-600">
+                            <h3 class="font-bold text-[#0077B6] mb-2">Penjelasan:</h3>
+                            <p>Skema ini menunjukkan koneksi dasar GPS GT08 ke sistem kelistrikan bus. Kabel merah (VCC) terhubung ke sumber daya positif konstan, kabel hitam (GND) ke ground/massa bus, dan kabel oranye (ACC) ke jalur kunci kontak (ignition) agar perangkat menyala saat bus dioperasikan. Penambahan sekring pada jalur VCC sangat disarankan untuk perlindungan.</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- END NEW: Skema Instalasi GPS GT08 -->
+
                 <div class="lg:col-span-3 bg-white rounded-2xl shadow-lg p-6 mt-8">
                     <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Troubleshooting GPS GT08 ✨</h3>
                     <p class="text-slate-600 mb-4">Masukkan gejala masalah yang Anda alami dengan GPS GT08 (misalnya, "Tidak ada sinyal GPS", "Alarm palsu"), dan Gemini akan memberikan potensi penyebab serta langkah perbaikan.</p>
@@ -333,11 +393,22 @@
                     </div>
                 </div>
 
+                <div class="lg:col-span-3 bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Saran Optimasi Penggunaan Data GPS ✨</h3>
+                    <p class="text-slate-600 mb-4">Jelaskan frekuensi pelaporan dan masalah terkait penggunaan data (misalnya, "konsumsi data tinggi", "baterai cepat habis") untuk mendapatkan saran optimasi.</p>
+                    <textarea id="gpsDataOptimizationPrompt" rows="4" placeholder="Contoh: Interval pelaporan 10 detik, baterai cepat habis." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <button id="getGpsDataOptimization" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Optimasi Data ✨</button>
+                    <div id="gpsDataOptimizationResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingGpsDataOptimization" class="text-center hidden">Memproses...</div>
+                        <div id="gpsDataOptimizationContent"></div>
+                    </div>
+                </div>
+
             </section>
 
             <section id="edc-cilico">
                 <h2 class="text-3xl font-bold text-center mb-8 text-[#023E8A]">BAGIAN 3: Transaksi Cepat - EDC Cilico CM550X</h2>
-                <p class="text-lg text-slate-600 text-center mb-6">Cilico CM550X adalah komputer mobile serbaguna dengan printer terintegrasi, dirancang untuk efisiensi transaksi pembayaran dan pengumpulan data di lingkungan yang beragam, termasuk transportasi.</p>
+                <p class="text-lg text-slate-600 text-center mb-6">Cilico CM550X adalah komputer mobile **genggam (handheld)** serbaguna dengan printer terintegrasi, dirancang untuk efisiensi transaksi pembayaran dan pengumpulan data di lingkungan yang beragam, termasuk transportasi.</p>
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                      <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
                          <span class="text-5xl">🔋</span>
@@ -387,6 +458,17 @@
                 </div>
 
                 <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Simulasi Skenario Transaksi & Solusi ✨</h3>
+                    <p class="text-slate-600 mb-4">Jelaskan skenario transaksi yang gagal atau bermasalah, dan Gemini akan menganalisis potensi penyebab serta menyarankan langkah-langkah solusi bagi operator.</p>
+                    <textarea id="cilicoTransactionScenarioPrompt" rows="4" placeholder="Contoh: Penumpang mencoba membayar dengan kartu NFC, tetapi perangkat tidak merespons." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <button id="getCilicoTransactionScenario" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Solusi Skenario ✨</button>
+                    <div id="cilicoTransactionScenarioResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingCilicoTransactionScenario" class="text-center hidden">Memproses...</div>
+                        <div id="cilicoTransactionScenarioContent"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6 mt-8">
                     <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Penjelasan Kode Error EDC Cilico CM550X ✨</h3>
                     <p class="text-slate-600 mb-4">Masukkan kode error atau deskripsi masalah singkat dari perangkat **Cilico CM550X** Anda untuk mendapatkan penjelasan dan saran *troubleshooting* awal.</p>
                     <div class="flex flex-col sm:flex-row gap-4 items-center mb-4">
@@ -424,8 +506,8 @@
 
                 <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
                     <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Saran Penempatan Optimal Perangkat Cilico CM550X ✨</h3>
-                    <p class="text-slate-600 mb-4">Jelaskan lokasi penempatan yang ingin Anda pertimbangkan di dalam bus dan Gemini akan memberikan saran penempatan optimal untuk aksesibilitas dan sinyal.</p>
-                    <textarea id="cilicoPlacementPrompt" rows="4" placeholder="Contoh: Tiang dekat pintu depan, dekat jendela, di belakang sopir." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <p class="text-slate-600 mb-4">Jelaskan tata letak bus (misalnya, "bus kota dengan banyak penumpang berdiri", "bus pariwisata dengan kursi terbatas") untuk mendapatkan saran penempatan optimal perangkat Cilico CM550X.</p>
+                    <textarea id="cilicoPlacementPrompt" rows="4" placeholder="Contoh: Bus kota, area pintu masuk, banyak penumpang berdiri." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
                     <button id="getCilicoPlacementSuggestion" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Saran Penempatan ✨</button>
                     <div id="cilicoPlacementResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
                         <div id="loadingCilicoPlacement" class="text-center hidden">Memproses...</div>
@@ -436,7 +518,7 @@
 
             <section id="tob-hcctg">
                 <h2 class="text-3xl font-bold text-center mb-8 text-[#023E8A]">BAGIAN 4: Sistem Pembayaran - TOB HCCTG P18-Q</h2>
-                <p class="text-lg text-slate-600 text-center mb-6">HCCTG P18-Q adalah mesin validator tiket bus yang dirancang khusus untuk lingkungan transportasi publik, menawarkan dukungan pembayaran komprehensif dan ketahanan tinggi.</p>
+                <p class="text-lg text-slate-600 text-center mb-6">HCCTG P18-Q adalah mesin validator tiket bus **yang terpasang secara permanen**, dirancang khusus untuk lingkungan transportasi publik, menawarkan dukungan pembayaran komprehensif dan ketahanan tinggi.</p>
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                      <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
                          <span class="text-5xl">⚙️</span>
@@ -448,7 +530,7 @@
                          <span class="text-5xl">💳</span>
                          <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Multi-Pembaca</h3>
                          <p class="text-3xl font-extrabold text-[#023E8A] my-2">NFC, IC, Mag</p>
-                         <p class="text-sm text-slate-500">Mendukung NFC (Mifare), Kartu IC Kontak, dan Pembaca Pita Magnetik.</p>
+                         <p class="text-sm text-slate-500">Mendukung pemindaian kode 1D/2D profesional dan NFC (13.56MHz).</p>
                      </div>
                       <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
                          <span class="text-5xl">💪</span>
@@ -529,6 +611,17 @@
                     <div id="hcctgPrintingOptimizationResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
                         <div id="loadingHcctgPrintingOptimization" class="text-center hidden">Memproses...</div>
                         <div id="hcctgPrintingOptimizationContent"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Tips Pembersihan & Perawatan Sensor Pembaca Kartu ✨</h3>
+                    <p class="text-slate-600 mb-4">Jelaskan jenis masalah (misalnya, "pembaca NFC tidak responsif", "IC card sulit terbaca") dan frekuensi penggunaan untuk mendapatkan tips perawatan sensor pembaca kartu HCCTG P18-Q.</p>
+                    <textarea id="hcctgSensorMaintenancePrompt" rows="4" placeholder="Contoh: Pembaca NFC kadang tidak merespons, penggunaan harian tinggi." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <button id="getHcctgSensorMaintenance" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Tips Perawatan ✨</button>
+                    <div id="hcctgSensorMaintenanceResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingHcctgSensorMaintenance" class="text-center hidden">Memproses...</div>
+                        <div id="hcctgSensorMaintenanceContent"></div>
                     </div>
                 </div>
             </section>
@@ -845,6 +938,7 @@
             }
         });
 
+
         // NEW: Gemini API Integration - Analisis Rute & Efisiensi Bahan Bakar
         const getFuelEfficiencyBtn = document.getElementById('getFuelEfficiency');
         const fuelEfficiencyPromptInput = document.getElementById('fuelEfficiencyPrompt');
@@ -888,6 +982,52 @@
                 fuelEfficiencyContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
             } finally {
                 loadingFuelEfficiencyDiv.classList.add('hidden');
+            }
+        });
+
+        // NEW: Gemini API Integration - Saran Optimasi Penggunaan Data GPS
+        const getGpsDataOptimizationBtn = document.getElementById('getGpsDataOptimization');
+        const gpsDataOptimizationPromptInput = document.getElementById('gpsDataOptimizationPrompt');
+        const gpsDataOptimizationResultDiv = document.getElementById('gpsDataOptimizationResult');
+        const loadingGpsDataOptimizationDiv = document.getElementById('loadingGpsDataOptimization');
+        const gpsDataOptimizationContentDiv = document.getElementById('gpsDataOptimizationContent');
+
+        getGpsDataOptimizationBtn.addEventListener('click', async () => {
+            const userPrompt = gpsDataOptimizationPromptInput.value.trim();
+            if (userPrompt === "") {
+                gpsDataOptimizationResultDiv.classList.remove('hidden');
+                gpsDataOptimizationContentDiv.textContent = 'Harap jelaskan frekuensi pelaporan dan masalah terkait penggunaan data GPS Anda.';
+                return;
+            }
+
+            gpsDataOptimizationResultDiv.classList.remove('hidden');
+            loadingGpsDataOptimizationDiv.classList.remove('hidden');
+            gpsDataOptimizationContentDiv.textContent = '';
+
+            const prompt = `Sebagai ahli perangkat GPS, berikan saran untuk mengoptimalkan penggunaan data pada GPS GT08 yang saat ini diatur dengan spesifikasi berikut: "${userPrompt}". Fokus pada cara menyeimbangkan akurasi pelacakan dengan efisiensi konsumsi data dan daya baterai.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    gpsDataOptimizationContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    gpsDataOptimizationContentDiv.textContent = 'Maaf, tidak dapat menghasilkan saran optimasi data GPS. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for GPS data optimization:", error);
+                gpsDataOptimizationContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingGpsDataOptimizationDiv.classList.add('hidden');
             }
         });
 
@@ -1034,7 +1174,7 @@
         const getCilicoPlacementSuggestionBtn = document.getElementById('getCilicoPlacementSuggestion');
         const cilicoPlacementPromptInput = document.getElementById('cilicoPlacementPrompt');
         const cilicoPlacementResultDiv = document.getElementById('cilicoPlacementResult');
-        const loadingCilicoPlacementDiv = document.getElementById('loadingCilicoPlacement');
+        const loadingCilicoPlacementDiv = document.getElementById('loadingCilicoPlacement'); 
         const cilicoPlacementContentDiv = document.getElementById('cilicoPlacementContent');
 
         getCilicoPlacementSuggestionBtn.addEventListener('click', async () => {
@@ -1049,7 +1189,7 @@
             loadingCilicoPlacementDiv.classList.remove('hidden');
             cilicoPlacementContentDiv.textContent = '';
 
-            const prompt = `Sebagai ahli pemasangan perangkat di transportasi publik, berikan saran penempatan optimal untuk perangkat EDC Cilico CM550X di dalam bus berdasarkan deskripsi lokasi berikut: "${userPrompt}". Pertimbangkan faktor aksesibilitas penumpang, visibilitas layar, kekuatan sinyal (WiFi/4G), keamanan, dan kemudahan perawatan.`;
+            const prompt = `Sebagai ahli pemasangan perangkat di transportasi publik, berikan saran penempatan optimal untuk perangkat EDC Cilico CM550X (handheld) di dalam bus berdasarkan deskripsi lokasi berikut: "${userPrompt}". Pertimbangkan faktor aksesibilitas penumpang, visibilitas layar, kekuatan sinyal (WiFi/4G), keamanan (misalnya, kemungkinan terjatuh atau hilang saat penggunaan handheld), dan kemudahan perawatan.`;
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
@@ -1174,7 +1314,7 @@
         const hcctgTransactionSummaryPromptInput = document.getElementById('hcctgTransactionSummaryPrompt');
         const hcctgTransactionSummaryResultDiv = document.getElementById('hcctgTransactionSummaryResult');
         const loadingHcctgTransactionSummaryDiv = document.getElementById('loadingHcctgTransactionSummary');
-        const hcctgTransactionSummaryContentDiv = document = document.getElementById('hcctgTransactionSummaryContent');
+        const hcctgTransactionSummaryContentDiv = document.getElementById('hcctgTransactionSummaryContent');
 
         getDailyHcctgTransactionSummaryBtn.addEventListener('click', async () => {
             const userPrompt = hcctgTransactionSummaryPromptInput.value.trim();
@@ -1260,6 +1400,100 @@
                 loadingHcctgPrintingOptimizationDiv.classList.add('hidden');
             }
         });
+
+        // NEW: Gemini API Integration - Tips Pembersihan & Perawatan Sensor Pembaca Kartu
+        const getHcctgSensorMaintenanceBtn = document.getElementById('getHcctgSensorMaintenance');
+        const hcctgSensorMaintenancePromptInput = document.getElementById('hcctgSensorMaintenancePrompt');
+        const hcctgSensorMaintenanceResultDiv = document.getElementById('hcctgSensorMaintenanceResult');
+        const loadingHcctgSensorMaintenanceDiv = document.getElementById('loadingHcctgSensorMaintenance');
+        const hcctgSensorMaintenanceContentDiv = document.getElementById('hcctgSensorMaintenanceContent');
+
+        getHcctgSensorMaintenanceBtn.addEventListener('click', async () => {
+            const userPrompt = hcctgSensorMaintenancePromptInput.value.trim();
+            if (userPrompt === "") {
+                hcctgSensorMaintenanceResultDiv.classList.remove('hidden');
+                hcctgSensorMaintenanceContentDiv.textContent = 'Harap jelaskan jenis masalah atau kebutuhan perawatan sensor.';
+                return;
+            }
+
+            hcctgSensorMaintenanceResultDiv.classList.remove('hidden');
+            loadingHcctgSensorMaintenanceDiv.classList.remove('hidden');
+            hcctgSensorMaintenanceContentDiv.textContent = '';
+
+            const prompt = `Sebagai ahli perawatan perangkat TOB, berikan tips pembersihan dan perawatan untuk sensor pembaca kartu (NFC, IC, magnetik) pada perangkat HCCTG P18-Q dengan masalah/kebutuhan berikut: "${userPrompt}". Fokus pada langkah-langkah praktis dan frekuensi rekomendasi.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    hcctgSensorMaintenanceContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    hcctgSensorMaintenanceContentDiv.textContent = 'Maaf, tidak dapat menghasilkan tips perawatan sensor. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for HCCTG sensor maintenance:", error);
+                hcctgSensorMaintenanceContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingHcctgSensorMaintenanceDiv.classList.add('hidden');
+            }
+        });
+
+        // NEW: Gemini API Integration - Simulasi Skenario Transaksi & Solusi (Cilico CM550X)
+        const getCilicoTransactionScenarioBtn = document.getElementById('getCilicoTransactionScenario');
+        const cilicoTransactionScenarioPromptInput = document.getElementById('cilicoTransactionScenarioPrompt');
+        const cilicoTransactionScenarioResultDiv = document.getElementById('cilicoTransactionScenarioResult');
+        const loadingCilicoTransactionScenarioDiv = document.getElementById('loadingCilicoTransactionScenario');
+        const cilicoTransactionScenarioContentDiv = document.getElementById('cilicoTransactionScenarioContent');
+
+        if (getCilicoTransactionScenarioBtn) { // Added null check
+            getCilicoTransactionScenarioBtn.addEventListener('click', async () => {
+                const userPrompt = cilicoTransactionScenarioPromptInput.value.trim();
+                if (userPrompt === "") {
+                    cilicoTransactionScenarioResultDiv.classList.remove('hidden');
+                    cilicoTransactionScenarioContentDiv.textContent = 'Harap jelaskan skenario transaksi yang ingin Anda simulasikan.';
+                    return;
+                }
+
+                cilicoTransactionScenarioResultDiv.classList.remove('hidden');
+                loadingCilicoTransactionScenarioDiv.classList.remove('hidden');
+                cilicoTransactionScenarioContentDiv.textContent = '';
+
+                const prompt = `Sebagai ahli perangkat EDC, simulasikan skenario transaksi berikut pada perangkat Cilico CM550X: "${userPrompt}". Berikan potensi penyebab kegagalan atau masalah, dan langkah-langkah solusi yang dapat dilakukan oleh operator atau teknisi.`;
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+
+                try {
+                    const response = await fetch(GEMINI_API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const result = await response.json();
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        cilicoTransactionScenarioContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                    } else {
+                        cilicoTransactionScenarioContentDiv.textContent = 'Maaf, tidak dapat melakukan simulasi skenario transaksi. Silakan coba lagi.';
+                    }
+                } catch (error) {
+                    console.error("Error calling Gemini API for Cilico transaction scenario:", error);
+                    cilicoTransactionScenarioContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+                } finally {
+                    loadingCilicoTransactionScenarioDiv.classList.add('hidden');
+                }
+            });
+        }
     </script>
 
 </body>
