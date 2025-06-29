@@ -14,7 +14,6 @@
     <!-- Visualization & Content Choices: 
     - Report Info: Relay Function -> Goal: Inform -> Viz/Presentation Method: Custom HTML/CSS diagram with icons. Interaction: None. Justification: A static, clear visual is more effective for explaining a core concept than text alone. Library/Method: HTML/Tailwind CSS.
     - Report Info: Tools Required -> Goal: Inform/Organize -> Viz/Presentation Method: Donut Chart. Interaction: Hover tooltips. Justification: Quickly visualizes the composition of essential tools. Library/Method: Chart.js.
-    - Report Info: HCCTG P18-Q Key Specs -> Goal: Inform/Compare -> Viz/Presentation Method: Icon-based feature list with large numbers. Interaction: None. Justification: Highlights the most critical specifications for quick reference. Library/Method: HTML/Tailwind CSS.
     - Report Info: Installation Processes -> Goal: Organize -> Viz/Presentation Method: Numbered step-by-step visual guides using flexbox. Interaction: None. Justification: Breaks down complex procedures into simple, sequential steps. Library/Method: HTML/Tailwind CSS.
     - New Feature: Optimal Cable and Fuse Recommender -> Goal: Provide practical safety advice for electrical installations -> Viz/Presentation: Text output based on user input. Interaction: Number inputs, button click, LLM API call. Justification: Leverages LLM for practical planning, directly assisting technicians with safety-critical calculations. Library/Method: Vanilla JS, Gemini API.
     - New Feature: Common Error Code Explainer -> Goal: Aid in diagnosing payment system issues -> Viz/Presentation: Text output based on user input. Interaction: Text input, button click, LLM API call. Justification: Uses LLM for problem-solving, enhancing troubleshooting capabilities for common errors. Library/Method: Vanilla JS, Gemini API.
@@ -23,6 +22,10 @@
     - New Feature: Troubleshooting General Electrical Issues -> Goal: Provide diagnostic help for broader electrical problems beyond just fuses/cables -> Viz/Presentation: Text output based on user input. Interaction: Textarea input, button click, LLM API call. Justification: Expands the troubleshooting capabilities of the power section. Library/Method: Vanilla JS, Gemini API.
     - New Feature: Daily Transaction Data Summary -> Goal: Offer insights into transaction performance -> Viz/Presentation: Text summary based on simulated data input. Interaction: Textarea input, button click, LLM API call. Justification: Provides quick data analysis capability relevant to the payment system. Library/Method: Vanilla JS, Gemini API.
     - Integrated Feature: Electrical Schematics -> Goal: Provide detailed visual reference for wiring -> Viz/Presentation: Custom HTML/CSS diagrams. Interaction: None. Justification: Directly embeds critical wiring diagrams for easy reference within the relevant section. Library/Method: HTML/Tailwind CSS.
+    - New Feature: GPS GT08 Troubleshooting (LLM) - for GPS section.
+    - New Segment: GPS GT08.
+    - New Segment: EDC Cilico CM550X.
+    - New Segment: TOB HCCTG P18-Q.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -49,7 +52,7 @@
         
         <header class="text-center mb-12 md:mb-16">
             <h1 class="text-4xl md:text-5xl font-extrabold text-[#023E8A]">Panduan Visual Sistem Bus</h1>
-            <p class="mt-4 text-lg text-[#0077B6]">Infografis untuk Pemasangan & Perawatan Sistem Daya dan Pembayaran.</p>
+            <p class="mt-4 text-lg text-[#0077B6]">Infografis untuk Pemasangan & Perawatan Sistem Daya, Pelacakan, dan Pembayaran.</p>
         </header>
 
         <main class="space-y-16">
@@ -160,6 +163,18 @@
                         </div>
                     </div>
 
+                    <div class="lg:col-span-3 bg-white rounded-2xl shadow-lg p-6">
+                        <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Generator Jadwal Perawatan Preventif Kelistrikan ✨</h3>
+                        <p class="text-slate-600 mb-4">Masukkan jenis kendaraan (contoh: "bus kota") dan frekuensi penggunaan (contoh: "harian, 10 jam") untuk mendapatkan saran jadwal perawatan kelistrikan.</p>
+                        <textarea id="electricalMaintenancePrompt" rows="4" placeholder="Contoh: Bus pariwisata, penggunaan jarak jauh, 5000 km/bulan." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                        <button id="getElectricalMaintenance" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Hasilkan Jadwal ✨</button>
+                        <div id="electricalMaintenanceResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                            <div id="loadingElectricalMaintenance" class="text-center hidden">Memproses...</div>
+                            <div id="electricalMaintenanceContent"></div>
+                        </div>
+                    </div>
+
+
                      <!-- Start of Schematics from bus_systems_schematics -->
                     <div class="lg:col-span-3 bg-white p-6 rounded-2xl shadow-lg">
                         <h2 class="text-2xl font-bold text-center mb-6 text-blue-secondary-schematic">Instalasi 24V (Langsung)</h2>
@@ -186,7 +201,7 @@
                                 </div>
                             </div>
                             <div class="h-8 w-0.5 bg-slate-400 mx-auto"></div>
-                            <div class="mt-4 font-bold text-lg text-green-600">� KELUARAN KE PERANGKAT/BEBAN (+24V)</div>
+                            <div class="mt-4 font-bold text-lg text-green-600">🔌 KELUARAN KE PERANGKAT/BEBAN (+24V)</div>
                             
                             <div class="absolute text-xs font-semibold text-slate-600" style="left:10%; top: 60%;">🔑<br>SUMBER<br>PEMICU<br>(+24V)</div>
                             <div class="absolute" style="left:21%; top: 68%;"><div class="h-10 w-0.5 bg-slate-400"></div></div>
@@ -245,89 +260,275 @@
                 </div>
             </section>
             
-            <section id="payment">
-                <h2 class="text-3xl font-bold text-center mb-8 text-[#023E8A]">BAGIAN 2: Transaksi Cepat - EDC HCCTG P18-Q</h2>
+            <section id="gps">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[#023E8A]">BAGIAN 2: Sistem Pelacakan - GPS GT08</h2>
+                <p class="text-lg text-slate-600 text-center mb-6">GPS Tracker GT08 adalah perangkat pelacak kendaraan multifungsi yang menggunakan jaringan GSM/GPRS dan sistem posisi satelit GPS. Dirancang untuk keamanan, pemosisian, pemantauan, alarm darurat, dan pelacakan komprehensif. Ini adalah alat penting untuk memantau satu kendaraan atau seluruh armada.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                        <span class="text-5xl">📍</span>
+                        <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Pelacakan Real-time</h3>
+                        <p class="text-3xl font-extrabold text-[#023E8A] my-2">GPS/GSM</p>
+                        <p class="text-sm text-slate-500">Memberikan data lokasi dan kecepatan terkini melalui GPS dan jaringan seluler.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                        <span class="text-5xl">🚨</span>
+                        <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Multi-Alarm</h3>
+                        <p class="text-3xl font-extrabold text-[#023E8A] my-2">Geo-fence, Overspeed</p>
+                        <p class="text-sm text-slate-500">Peringatan instan untuk getaran, kecepatan berlebih, matikan daya, dan keluar zona aman.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                        <span class="text-5xl">🛡️</span>
+                        <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Tahan Lingkungan</h3>
+                        <p class="text-3xl font-extrabold text-[#023E8A] my-2">IP65</p>
+                        <p class="text-sm text-slate-500">Tahan debu dan air, memastikan operasi stabil di lingkungan yang keras.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                        <span class="text-5xl">⚡️</span>
+                        <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Daya Luas</h3>
+                        <p class="text-3xl font-extrabold text-[#023E8A] my-2">9-90V</p>
+                        <p class="text-sm text-slate-500">Rentang tegangan operasional yang lebar, cocok untuk berbagai jenis kendaraan (mobil, truk, motor, e-bike).</p>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3 bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Pemasangan & Konfigurasi Singkat GPS GT08</h3>
+                    <ol class="grid md:grid-cols-3 gap-6 text-center">
+                        <li class="border-t-4 border-[#90E0EF] pt-4">
+                            <span class="text-3xl font-bold text-[#0096C7]">1</span>
+                            <h4 class="font-bold mt-2">Siapkan SIM Card</h4>
+                            <p class="text-sm text-slate-500">Pasang kartu SIM (dengan paket data aktif) ke slot pada perangkat GT08.</p>
+                        </li>
+                        <li class="border-t-4 border-[#48CAE4] pt-4">
+                            <span class="text-3xl font-bold text-[#0077B6]">2</span>
+                            <h4 class="font-bold mt-2">Sambung Daya</h4>
+                            <p class="text-sm text-slate-500">Hubungkan kabel daya GT08 (biasanya merah ke positif baterai, hitam ke ground, oranye ke ACC/ignition) ke kelistrikan bus. Sesuaikan dengan diagram pemasangan spesifik GT08.</p>
+                        </li>
+                        <li class="border-t-4 border-[#0077B6] pt-4">
+                            <span class="text-3xl font-bold text-[#023E8A]">3</span>
+                            <h4 class="font-bold mt-2">Pilih Lokasi & Uji</h4>
+                            <p class="text-sm text-slate-500">Pasang di lokasi tersembunyi dengan sinyal GPS yang baik (hindari tertutup logam). Uji pelacakan dan fungsi alarm melalui aplikasi/platform.</p>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="lg:col-span-3 bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Troubleshooting GPS GT08 ✨</h3>
+                    <p class="text-slate-600 mb-4">Masukkan gejala masalah yang Anda alami dengan GPS GT08 (misalnya, "Tidak ada sinyal GPS", "Alarm palsu"), dan Gemini akan memberikan potensi penyebab serta langkah perbaikan.</p>
+                    <textarea id="gpsTroubleshootPrompt" rows="4" placeholder="Contoh: Perangkat GPS GT08 tidak mengirimkan lokasi terbaru." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <button id="getGpsTroubleshoot" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Solusi ✨</button>
+                    <div id="gpsTroubleshootResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingGps" class="text-center hidden">Memproses...</div>
+                        <div id="gpsResultContent"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-3 bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Analisis Rute & Efisiensi Bahan Bakar ✨</h3>
+                    <p class="text-slate-600 mb-4">Jelaskan kebiasaan mengemudi atau tantangan rute Anda (misalnya, "sering macet", "banyak tanjakan") untuk mendapatkan saran efisiensi bahan bakar.</p>
+                    <textarea id="fuelEfficiencyPrompt" rows="4" placeholder="Contoh: Bus sering berhenti-jalan di lalu lintas kota padat." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <button id="getFuelEfficiency" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Saran Efisiensi ✨</button>
+                    <div id="fuelEfficiencyResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingFuelEfficiency" class="text-center hidden">Memproses...</div>
+                        <div id="fuelEfficiencyContent"></div>
+                    </div>
+                </div>
+
+            </section>
+
+            <section id="edc-cilico">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[#023E8A]">BAGIAN 3: Transaksi Cepat - EDC Cilico CM550X</h2>
+                <p class="text-lg text-slate-600 text-center mb-6">Cilico CM550X adalah komputer mobile serbaguna dengan printer terintegrasi, dirancang untuk efisiensi transaksi pembayaran dan pengumpulan data di lingkungan yang beragam, termasuk transportasi.</p>
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                      <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
-                         <span class="text-5xl">⚡️</span>
-                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Input Daya Fleksibel</h3>
-                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">9-48V</p>
-                         <p class="text-sm text-slate-500">Langsung cocok untuk sistem 12V dan 24V tanpa konverter tambahan.</p>
+                         <span class="text-5xl">🔋</span>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Baterai Besar</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">4000mAh</p>
+                         <p class="text-sm text-slate-500">Baterai Li-Ion 4000mAh yang dapat dilepas untuk daya tahan.
                      </div>
                       <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
                          <span class="text-5xl">💳</span>
-                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Multi-Pembayaran</h3>
-                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">3-in-1</p>
-                         <p class="text-sm text-slate-500">Mendukung Tap (NFC), Chip (IC Card), dan Pindai (QR Code).</p>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Scan & NFC</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">1D/2D</p>
+                         <p class="text-sm text-slate-500">Mendukung pemindaian kode 1D/2D profesional dan NFC (13.56MHz).</p>
                      </div>
                       <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
                          <span class="text-5xl">🌡️</span>
-                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Tahan Banting</h3>
-                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">IP54</p>
-                         <p class="text-sm text-slate-500">Tahan debu dan percikan air, ideal untuk penggunaan di lingkungan bus.</p>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Tahan Suhu Ekstrem</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">-20°C - 55°C</p>
+                         <p class="text-sm text-slate-500">Dirancang untuk beroperasi di rentang suhu yang luas, bersertifikat Drop.</p>
                      </div>
                       <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
                          <span class="text-5xl">📶</span>
-                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Selalu Terhubung</h3>
-                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">4G</p>
-                         <p class="text-sm text-slate-500">Dengan Dual SIM untuk koneksi data transaksi yang stabil dan andal.</p>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Konektivitas Lengkap</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">4G & WiFi</p>
+                         <p class="text-sm text-slate-500">Dilengkapi 4G/3G/2G, Wi-Fi Dual Band (2.4/5GHz), dan Bluetooth 5.0.</p>
                      </div>
+                </div>
 
-                    <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
-                        <h3 class="text-2xl font-bold text-center mb-4 text-[#0077B6]">Langkah Pemasangan Fisik EDC</h3>
-                        <ol class="grid md:grid-cols-3 gap-6 text-center">
-                            <li class="border-t-4 border-[#90E0EF] pt-4">
-                                <span class="text-3xl font-bold text-[#0096C7]">1</span>
-                                <h4 class="font-bold mt-2">Pilih Lokasi</h4>
-                                <p class="text-sm text-slate-500">Pasang di tiang dekat pintu masuk yang kokoh dan mudah dijangkau.</p>
-                            </li>
-                             <li class="border-t-4 border-[#48CAE4] pt-4">
-                                <span class="text-3xl font-bold text-[#0077B6]">2</span>
-                                <h4 class="font-bold mt-2">Sambung Listrik</h4>
-                                <p class="text-sm text-slate-500">Hubungkan kabel daya (+/-) ke sumber listrik bus yang sudah diberi sekring.</p>
-                            </li>
-                             <li class="border-t-4 border-[#0077B6] pt-4">
-                                <span class="text-3xl font-bold text-[#023E8A]">3</span>
-                                <h4 class="font-bold mt-2">Uji & Amankan</h4>
-                                <p class="text-sm text-slate-500">Nyalakan, uji transaksi, lalu rapikan semua kabel agar aman.</p>
-                            </li>
-                        </ol>
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[#0077B6]">Langkah Pemasangan Fisik EDC Cilico CM550X</h3>
+                    <ol class="grid md:grid-cols-3 gap-6 text-center">
+                        <li class="border-t-4 border-[#90E0EF] pt-4">
+                            <span class="text-3xl font-bold text-[#0096C7]">1</span>
+                            <h4 class="font-bold mt-2">Pilih Lokasi</h4>
+                            <p class="text-sm text-slate-500">Pasang di tiang dekat pintu masuk yang kokoh dan mudah dijangkau penumpang untuk *tapping* atau *scanning*.</p>
+                        </li>
+                         <li class="border-t-4 border-[#48CAE4] pt-4">
+                            <span class="text-3xl font-bold text-[#0077B6]">2</span>
+                            <h4 class="font-bold mt-2">Sambung Daya</h4>
+                            <p class="text-sm text-slate-500">Pastikan perangkat terisi daya penuh atau terhubung ke sumber daya yang stabil melalui adaptor daya yang sesuai (bukan langsung ke aki bus).</p>
+                        </li>
+                         <li class="border-t-4 border-[#0077B6] pt-4">
+                            <span class="text-3xl font-bold text-[#023E8A]">3</span>
+                            <h4 class="font-bold mt-2">Uji & Amankan</h4>
+                            <p class="text-sm text-slate-500">Nyalakan, uji transaksi dan konektivitas, lalu rapikan semua kabel agar aman.</p>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Penjelasan Kode Error EDC Cilico CM550X ✨</h3>
+                    <p class="text-slate-600 mb-4">Masukkan kode error atau deskripsi masalah singkat dari perangkat **Cilico CM550X** Anda untuk mendapatkan penjelasan dan saran *troubleshooting* awal.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 items-center mb-4">
+                        <label for="cilicoErrorCodeInput" class="text-slate-700 font-medium">Kode Error / Deskripsi:</label>
+                        <input type="text" id="cilicoErrorCodeInput" placeholder="Ex: Pembaca NFC tidak berfungsi" class="flex-grow p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6]">
+                        <button id="explainCilicoError" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Jelaskan Error ✨</button>
                     </div>
-
-                    <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
-                        <h3 class="2xl font-bold text-center mb-6 text-[#0077B6]">Penjelasan Kode Error EDC ✨</h3>
-                        <p class="text-slate-600 mb-4">Masukkan kode error atau deskripsi masalah singkat dari perangkat HCCTG P18-Q Anda untuk mendapatkan penjelasan dan saran *troubleshooting* awal.</p>
-                        <div class="flex flex-col sm:flex-row gap-4 items-center mb-4">
-                            <label for="errorCodeInput" class="text-slate-700 font-medium">Kode Error / Deskripsi:</label>
-                            <input type="text" id="errorCodeInput" placeholder="Ex: E01 / Transaksi Ditolak" class="flex-grow p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6]">
-                            <button id="explainError" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Jelaskan Error ✨</button>
-                        </div>
-                        <div id="errorExplanationResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
-                            <div id="loadingError" class="text-center hidden">Memproses...</div>
-                            <div id="errorResultContent"></div>
-                        </div>
+                    <div id="cilicoErrorExplanationResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingCilicoError" class="text-center hidden">Memproses...</div>
+                        <div id="cilicoErrorResultContent"></div>
                     </div>
+                </div>
 
-                    <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
-                        <h3 class="2xl font-bold text-center mb-6 text-[#0077B6]">Saran Konfigurasi Perangkat EDC ✨</h3>
-                        <p class="text-slate-600 mb-4">Tanyakan tentang konfigurasi umum atau best practice untuk perangkat EDC HCCTG P18-Q.</p>
-                        <textarea id="edcConfigPrompt" rows="4" placeholder="Contoh: Apa saja pengaturan penting untuk pembacaan kartu NFC yang optimal?" class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
-                        <button id="getEdcConfigSuggestion" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Saran Konfigurasi ✨</button>
-                        <div id="edcConfigResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
-                            <div id="loadingEdcConfig" class="text-center hidden">Memproses...</div>
-                            <div id="edcConfigResultContent"></div>
-                        </div>
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Saran Konfigurasi Perangkat EDC Cilico CM550X ✨</h3>
+                    <p class="text-slate-600 mb-4">Tanyakan tentang konfigurasi umum atau *best practice* untuk perangkat **Cilico CM550X**.</p>
+                    <textarea id="cilicoConfigPrompt" rows="4" placeholder="Contoh: Apa saja pengaturan Wi-Fi terbaik untuk lokasi bus yang bergerak?" class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <button id="getCilicoConfigSuggestion" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Saran Konfigurasi ✨</button>
+                    <div id="cilicoConfigResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingCilicoConfig" class="text-center hidden">Memproses...</div>
+                        <div id="cilicoConfigResultContent"></div>
                     </div>
+                </div>
 
-                    <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
-                        <h3 class="2xl font-bold text-center mb-6 text-[#0077B6]">Ringkasan Data Transaksi Harian ✨</h3>
-                        <p class="text-slate-600 mb-4">Masukkan data transaksi harian (misalnya, "NFC: 15x, QRIS: 20x, Chip: 5x") untuk mendapatkan ringkasan kinerja.</p>
-                        <textarea id="transactionSummaryPrompt" rows="4" placeholder="Contoh: 'Pagi: 10x NFC, 5x QRIS. Siang: 20x NFC, 10x QRIS. Malam: 5x NFC, 2x Chip.'" class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
-                        <button id="getDailyTransactionSummary" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Ringkasan ✨</button>
-                        <div id="transactionSummaryResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
-                            <div id="loadingTransactionSummary" class="text-center hidden">Memproses...</div>
-                            <div id="transactionSummaryContent"></div>
-                        </div>
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Ringkasan Data Transaksi Harian Cilico CM550X ✨</h3>
+                    <p class="text-slate-600 mb-4">Masukkan data transaksi harian (misalnya, "NFC: 15x, QR: 20x") untuk mendapatkan ringkasan kinerja dari perangkat **Cilico CM550X**.</p>
+                    <textarea id="cilicoTransactionSummaryPrompt" rows="4" placeholder="Contoh: 'Pagi: 10x NFC, 5x QR. Siang: 20x NFC, 10x QR. Malam: 5x NFC, 2x QR.'" class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <button id="getDailyCilicoTransactionSummary" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Ringkasan ✨</button>
+                    <div id="cilicoTransactionSummaryResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingCilicoTransactionSummary" class="text-center hidden">Memproses...</div>
+                        <div id="cilicoTransactionSummaryContent"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Saran Penempatan Optimal Perangkat Cilico CM550X ✨</h3>
+                    <p class="text-slate-600 mb-4">Jelaskan lokasi penempatan yang ingin Anda pertimbangkan di dalam bus dan Gemini akan memberikan saran penempatan optimal untuk aksesibilitas dan sinyal.</p>
+                    <textarea id="cilicoPlacementPrompt" rows="4" placeholder="Contoh: Tiang dekat pintu depan, dekat jendela, di belakang sopir." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <button id="getCilicoPlacementSuggestion" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Saran Penempatan ✨</button>
+                    <div id="cilicoPlacementResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingCilicoPlacement" class="text-center hidden">Memproses...</div>
+                        <div id="cilicoPlacementContent"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tob-hcctg">
+                <h2 class="text-3xl font-bold text-center mb-8 text-[#023E8A]">BAGIAN 4: Sistem Pembayaran - TOB HCCTG P18-Q</h2>
+                <p class="text-lg text-slate-600 text-center mb-6">HCCTG P18-Q adalah mesin validator tiket bus yang dirancang khusus untuk lingkungan transportasi publik, menawarkan dukungan pembayaran komprehensif dan ketahanan tinggi.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                     <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                         <span class="text-5xl">⚙️</span>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">OS & CPU</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">Android 9.0</p>
+                         <p class="text-sm text-slate-500">Didukung Android 9.0 dengan KunT11 Quad-core 2.0 GHz untuk performa tangguh.</p>
+                     </div>
+                      <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                         <span class="text-5xl">💳</span>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Multi-Pembaca</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">NFC, IC, Mag</p>
+                         <p class="text-sm text-slate-500">Mendukung NFC (Mifare), Kartu IC Kontak, dan Pembaca Pita Magnetik.</p>
+                     </div>
+                      <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                         <span class="text-5xl">💪</span>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Ketahanan</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">IP54 & IK06</p>
+                         <p class="text-sm text-slate-500">Tahan debu, percikan air (IP54) dan benturan (IK06), ideal untuk bus.</p>
+                     </div>
+                      <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                         <span class="text-5xl">⚡</span>
+                         <h3 class="text-xl font-bold mt-2 text-[#0077B6]">Daya Langsung</h3>
+                         <p class="text-3xl font-extrabold text-[#023E8A] my-2">9-48V</p>
+                         <p class="text-sm text-slate-500">Dapat langsung dihubungkan ke sistem listrik bus 12V atau 24V.</p>
+                     </div>
+                </div>
+
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-center mb-4 text-[#0077B6]">Langkah Pemasangan Fisik TOB HCCTG P18-Q</h3>
+                    <ol class="grid md:grid-cols-3 gap-6 text-center">
+                        <li class="border-t-4 border-[#90E0EF] pt-4">
+                            <span class="text-3xl font-bold text-[#0096C7]">1</span>
+                            <h4 class="font-bold mt-2">Pilih Lokasi</h4>
+                            <p class="text-sm text-slate-500">Pasang di tiang dekat pintu masuk yang kokoh dan mudah dijangkau penumpang untuk *tapping* atau *scanning*.</p>
+                        </li>
+                         <li class="border-t-4 border-[#48CAE4] pt-4">
+                            <span class="text-3xl font-bold text-[#0077B6]">2</span>
+                            <h4 class="font-bold mt-2">Sambung Listrik</h4>
+                            <p class="text-sm text-slate-500">Hubungkan kabel daya (+/-) P18-Q ke sumber listrik bus (9-48V) melalui sekring yang sesuai.</p>
+                        </li>
+                         <li class="border-t-4 border-[#0077B6] pt-4">
+                            <span class="text-3xl font-bold text-[#023E8A]">3</span>
+                            <h4 class="font-bold mt-2">Uji & Amankan</h4>
+                            <p class="text-sm text-slate-500">Nyalakan, uji transaksi dan konektivitas, lalu rapikan semua kabel agar aman.</p>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6 mt-8">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Penjelasan Kode Error TOB HCCTG P18-Q ✨</h3>
+                    <p class="text-slate-600 mb-4">Masukkan kode error atau deskripsi masalah singkat dari perangkat **HCCTG P18-Q** Anda untuk mendapatkan penjelasan dan saran *troubleshooting* awal.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 items-center mb-4">
+                        <label for="hcctgErrorCodeInput" class="text-slate-700 font-medium">Kode Error / Deskripsi:</label>
+                        <input type="text" id="hcctgErrorCodeInput" placeholder="Ex: E01 / Transaksi Ditolak" class="flex-grow p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6]">
+                        <button id="explainHcctgError" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Jelaskan Error ✨</button>
+                    </div>
+                    <div id="hcctgErrorExplanationResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingHcctgError" class="text-center hidden">Memproses...</div>
+                        <div id="hcctgErrorResultContent"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Saran Konfigurasi Perangkat TOB HCCTG P18-Q ✨</h3>
+                    <p class="text-slate-600 mb-4">Tanyakan tentang konfigurasi umum atau *best practice* untuk perangkat **HCCTG P18-Q**.</p>
+                    <textarea id="hcctgConfigPrompt" rows="4" placeholder="Contoh: Apa saja pengaturan penting untuk koneksi 4G yang stabil?" class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <button id="getHcctgConfigSuggestion" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Saran Konfigurasi ✨</button>
+                    <div id="hcctgConfigResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingHcctgConfig" class="text-center hidden">Memproses...</div>
+                        <div id="hcctgConfigResultContent"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Ringkasan Data Transaksi Harian TOB HCCTG P18-Q ✨</h3>
+                    <p class="text-slate-600 mb-4">Masukkan data transaksi harian (misalnya, "NFC: 15x, Chip: 20x") untuk mendapatkan ringkasan kinerja dari perangkat **HCCTG P18-Q**.</p>
+                    <textarea id="hcctgTransactionSummaryPrompt" rows="4" placeholder="Contoh: 'Pagi: 10x NFC, 5x Chip. Siang: 20x NFC, 10x Chip. Malam: 5x NFC, 2x Chip.'" class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <button id="getDailyHcctgTransactionSummary" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Ringkasan ✨</button>
+                    <div id="hcctgTransactionSummaryResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingHcctgTransactionSummary" class="text-center hidden">Memproses...</div>
+                        <div id="hcctgTransactionSummaryContent"></div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-center mb-6 text-[#0077B6]">Saran Optimalisasi Pencetakan Tiket P18-Q ✨</h3>
+                    <p class="text-slate-600 mb-4">Jelaskan masalah pencetakan (misalnya, "cetakan buram", "kertas sering macet") atau kebutuhan optimalisasi Anda pada printer P18-Q.</p>
+                    <textarea id="hcctgPrintingOptimizationPrompt" rows="4" placeholder="Contoh: Cetakan tiket sering buram dan sulit dibaca." class="w-full p-2 border border-slate-300 rounded-md focus:ring-[#0077B6] focus:border-[#0077B6] mb-4"></textarea>
+                    <button id="getHcctgPrintingOptimization" class="px-6 py-3 bg-[#0077B6] text-white font-semibold rounded-full hover:bg-[#023E8A] transition-colors duration-200">Dapatkan Saran Optimalisasi ✨</button>
+                    <div id="hcctgPrintingOptimizationResult" class="mt-4 p-4 bg-[#E0F7FA] rounded-lg text-slate-700 hidden">
+                        <div id="loadingHcctgPrintingOptimization" class="text-center hidden">Memproses...</div>
+                        <div id="hcctgPrintingOptimizationContent"></div>
                     </div>
                 </div>
             </section>
@@ -335,7 +536,7 @@
         </main>
         
         <footer class="text-center mt-12 md:mt-16 pt-8 border-t border-[#90E0EF]">
-            <h3 class="xl font-bold text-[#023E8A]">Keselamatan Adalah Prioritas Utama</h3>
+            <h3 class="text-xl font-bold text-[#023E8A]">Keselamatan Adalah Prioritas Utama</h3>
             <p class="mt-2 text-[#0077B6]">Selalu lepaskan terminal negatif aki sebelum memulai pekerjaan kelistrikan. Bekerja dengan cerdas, bekerja dengan aman.</p>
         </footer>
     </div>
@@ -460,53 +661,7 @@
             }
         });
 
-        // Gemini API Integration 2: Common Error Code Explainer
-        const explainErrorBtn = document.getElementById('explainError');
-        const errorCodeInput = document.getElementById('errorCodeInput');
-        const errorExplanationResult = document.getElementById('errorExplanationResult');
-        const loadingError = document.getElementById('loadingError');
-        const errorResultContent = document.getElementById('errorResultContent');
-
-        explainErrorBtn.addEventListener('click', async () => {
-            const errorCode = errorCodeInput.value.trim();
-            if (errorCode === "") {
-                errorExplanationResult.classList.remove('hidden');
-                errorResultContent.textContent = 'Harap masukkan kode error atau deskripsi masalah.';
-                return;
-            }
-
-            errorExplanationResult.classList.remove('hidden');
-            loadingError.classList.remove('hidden');
-            errorResultContent.textContent = '';
-
-            const prompt = `Sebagai teknisi yang menghadapi kode error atau deskripsi masalah '${errorCode}' pada perangkat validator tiket bus HCCTG P18-Q, jelaskan arti dari kode error/masalah ini dan berikan langkah-langkah troubleshooting awal yang dapat saya lakukan di lapangan. Fokus pada kemungkinan penyebab terkait konektivitas (4G/Wi-Fi), pembaca kartu (NFC/IC/QR), atau masalah perangkat keras umum.`;
-            let chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-            const payload = { contents: chatHistory };
-
-            try {
-                const response = await fetch(GEMINI_API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const result = await response.json();
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    errorResultContent.textContent = result.candidates[0].content.parts[0].text;
-                } else {
-                    errorResultContent.textContent = 'Maaf, tidak dapat menganalisis masalah. Silakan coba lagi.';
-                }
-            } catch (error) {
-                console.error("Error calling Gemini API for error explanation:", error);
-                resultContent.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
-            } finally {
-                loadingError.classList.add('hidden');
-            }
-        });
-
-        // Gemini API Integration 3: Simple Circuit Design Suggestion
+        // Gemini API Integration - Simple Circuit Design Suggestion
         const getCircuitDesignBtn = document.getElementById('getCircuitDesign');
         const circuitDesignPromptInput = document.getElementById('circuitDesignPrompt');
         const circuitDesignResultDiv = document.getElementById('circuitDesignResult');
@@ -552,53 +707,7 @@
             }
         });
 
-        // Gemini API Integration 4: EDC Configuration Tips
-        const getEdcConfigSuggestionBtn = document.getElementById('getEdcConfigSuggestion');
-        const edcConfigPromptInput = document.getElementById('edcConfigPrompt');
-        const edcConfigResultDiv = document.getElementById('edcConfigResult');
-        const loadingEdcConfigDiv = document.getElementById('loadingEdcConfig');
-        const edcConfigResultContentDiv = document.getElementById('edcConfigResultContent');
-
-        getEdcConfigSuggestionBtn.addEventListener('click', async () => {
-            const userPrompt = edcConfigPromptInput.value.trim();
-            if (userPrompt === "") {
-                edcConfigResultDiv.classList.remove('hidden');
-                edcConfigResultContentDiv.textContent = 'Harap tanyakan tentang konfigurasi yang Anda butuhkan.';
-                return;
-            }
-
-            edcConfigResultDiv.classList.remove('hidden');
-            loadingEdcConfigDiv.classList.remove('hidden');
-            edcConfigResultContentDiv.textContent = '';
-
-            const prompt = `Sebagai ahli konfigurasi perangkat EDC HCCTG P18-Q, berikan saran konfigurasi atau best practice untuk "${userPrompt}". Fokus pada pengaturan penting yang sering diubah atau dioptimalkan.`;
-            let chatHistory = [];
-            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-            const payload = { contents: chatHistory };
-
-            try {
-                const response = await fetch(GEMINI_API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const result = await response.json();
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    edcConfigResultContentDiv.textContent = result.candidates[0].content.parts[0].text;
-                } else {
-                    edcConfigResultContentDiv.textContent = 'Maaf, tidak dapat menghasilkan saran konfigurasi. Silakan coba lagi.';
-                }
-            } catch (error) {
-                console.error("Error calling Gemini API for EDC config:", error);
-                edcConfigResultContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
-            } finally {
-                loadingEdcConfigDiv.classList.add('hidden');
-            }
-        });
-
-        // Gemini API Integration 5: Troubleshooting General Electrical Issues
+        // Gemini API Integration - Troubleshooting General Electrical Issues
         const getElectricalTroubleshootBtn = document.getElementById('getElectricalTroubleshoot');
         const electricalTroubleshootPromptInput = document.getElementById('electricalTroubleshootPrompt');
         const electricalTroubleshootResultDiv = document.getElementById('electricalTroubleshootResult');
@@ -644,26 +753,26 @@
             }
         });
 
-        // Gemini API Integration 6: Daily Transaction Data Summary
-        const getDailyTransactionSummaryBtn = document.getElementById('getDailyTransactionSummary');
-        const transactionSummaryPromptInput = document.getElementById('transactionSummaryPrompt');
-        const transactionSummaryResultDiv = document.getElementById('transactionSummaryResult');
-        const loadingTransactionSummaryDiv = document.getElementById('loadingTransactionSummary');
-        const transactionSummaryContentDiv = document.getElementById('transactionSummaryContent');
+        // NEW: Gemini API Integration - Generator Jadwal Perawatan Preventif Kelistrikan
+        const getElectricalMaintenanceBtn = document.getElementById('getElectricalMaintenance');
+        const electricalMaintenancePromptInput = document.getElementById('electricalMaintenancePrompt');
+        const electricalMaintenanceResultDiv = document.getElementById('electricalMaintenanceResult');
+        const loadingElectricalMaintenanceDiv = document.getElementById('loadingElectricalMaintenance');
+        const electricalMaintenanceContentDiv = document.getElementById('electricalMaintenanceContent');
 
-        getDailyTransactionSummaryBtn.addEventListener('click', async () => {
-            const userPrompt = transactionSummaryPromptInput.value.trim();
+        getElectricalMaintenanceBtn.addEventListener('click', async () => {
+            const userPrompt = electricalMaintenancePromptInput.value.trim();
             if (userPrompt === "") {
-                transactionSummaryResultDiv.classList.remove('hidden');
-                transactionSummaryContentDiv.textContent = 'Harap masukkan data transaksi harian untuk diringkas.';
+                electricalMaintenanceResultDiv.classList.remove('hidden');
+                electricalMaintenanceContentDiv.textContent = 'Harap masukkan jenis kendaraan dan frekuensi penggunaan.';
                 return;
             }
 
-            transactionSummaryResultDiv.classList.remove('hidden');
-            loadingTransactionSummaryDiv.classList.remove('hidden');
-            transactionSummaryContentDiv.textContent = '';
+            electricalMaintenanceResultDiv.classList.remove('hidden');
+            loadingElectricalMaintenanceDiv.classList.remove('hidden');
+            electricalMaintenanceContentDiv.textContent = '';
 
-            const prompt = `Saya memiliki data transaksi harian dari perangkat EDC bus saya. Data mentahnya adalah: "${userPrompt}". Sebagai analis data, berikan ringkasan kinerja transaksi untuk hari ini, termasuk total transaksi, distribusi jenis pembayaran (misalnya, NFC, QRIS, Chip), dan wawasan singkat yang relevan. Format dalam poin-poin atau paragraf singkat.`;
+            const prompt = `Sebagai ahli perawatan kendaraan, berikan saran jadwal perawatan preventif untuk komponen kelistrikan utama (aki, alternator, kabel, sekring, lampu) pada kendaraan dengan spesifikasi berikut: "${userPrompt}". Sajikan dalam format poin-poin bulanan/tahunan yang jelas.`;
             let chatHistory = [];
             chatHistory.push({ role: "user", parts: [{ text: prompt }] });
             const payload = { contents: chatHistory };
@@ -678,19 +787,480 @@
                 if (result.candidates && result.candidates.length > 0 &&
                     result.candidates[0].content && result.candidates[0].content.parts &&
                     result.candidates[0].content.parts.length > 0) {
-                    transactionSummaryContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                    electricalMaintenanceContentDiv.textContent = result.candidates[0].content.parts[0].text;
                 } else {
-                    transactionSummaryContentDiv.textContent = 'Maaf, tidak dapat meringkas data transaksi. Silakan coba lagi.';
+                    electricalMaintenanceContentDiv.textContent = 'Maaf, tidak dapat menghasilkan jadwal perawatan. Silakan coba lagi.';
                 }
             } catch (error) {
-                console.error("Error calling Gemini API for transaction summary:", error);
-                transactionSummaryContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+                console.error("Error calling Gemini API for electrical maintenance:", error);
+                electricalMaintenanceContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
             } finally {
-                loadingTransactionSummaryDiv.classList.add('hidden');
+                loadingElectricalMaintenanceDiv.classList.add('hidden');
+            }
+        });
+        
+        // Gemini API Integration - GPS GT08 Troubleshooting
+        const getGpsTroubleshootBtn = document.getElementById('getGpsTroubleshoot');
+        const gpsTroubleshootPromptInput = document.getElementById('gpsTroubleshootPrompt');
+        const gpsTroubleshootResultDiv = document.getElementById('gpsTroubleshootResult');
+        const loadingGpsDiv = document.getElementById('loadingGps');
+        const gpsResultContentDiv = document.getElementById('gpsResultContent');
+
+        getGpsTroubleshootBtn.addEventListener('click', async () => {
+            const userPrompt = gpsTroubleshootPromptInput.value.trim();
+            if (userPrompt === "") {
+                gpsTroubleshootResultDiv.classList.remove('hidden');
+                gpsResultContentDiv.textContent = 'Harap masukkan gejala masalah GPS GT08 yang Anda alami.';
+                return;
+            }
+
+            gpsTroubleshootResultDiv.classList.remove('hidden');
+            loadingGpsDiv.classList.remove('hidden');
+            gpsResultContentDiv.textContent = '';
+
+            const prompt = `Saya mengalami masalah dengan GPS Tracker GT08 pada bus dengan gejala berikut: "${userPrompt}". Sebagai ahli pelacakan kendaraan, berikan potensi penyebab masalah ini dan langkah-langkah troubleshooting awal yang dapat saya lakukan untuk mendiagnosis dan memperbaikinya. Fokus pada masalah sinyal GPS, konektivitas GSM, daya, atau konfigurasi perangkat.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    gpsResultContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    gpsResultContentDiv.textContent = 'Maaf, tidak dapat menganalisis masalah GPS. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for GPS troubleshoot:", error);
+                gpsResultContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingGpsDiv.classList.add('hidden');
+            }
+        });
+
+        // NEW: Gemini API Integration - Analisis Rute & Efisiensi Bahan Bakar
+        const getFuelEfficiencyBtn = document.getElementById('getFuelEfficiency');
+        const fuelEfficiencyPromptInput = document.getElementById('fuelEfficiencyPrompt');
+        const fuelEfficiencyResultDiv = document.getElementById('fuelEfficiencyResult');
+        const loadingFuelEfficiencyDiv = document.getElementById('loadingFuelEfficiency');
+        const fuelEfficiencyContentDiv = document.getElementById('fuelEfficiencyContent');
+
+        getFuelEfficiencyBtn.addEventListener('click', async () => {
+            const userPrompt = fuelEfficiencyPromptInput.value.trim();
+            if (userPrompt === "") {
+                fuelEfficiencyResultDiv.classList.remove('hidden');
+                fuelEfficiencyContentDiv.textContent = 'Harap jelaskan kebiasaan mengemudi atau tantangan rute Anda.';
+                return;
+            }
+
+            fuelEfficiencyResultDiv.classList.remove('hidden');
+            loadingFuelEfficiencyDiv.classList.remove('hidden');
+            fuelEfficiencyContentDiv.textContent = '';
+
+            const prompt = `Sebagai ahli efisiensi kendaraan, berikan analisis dan saran untuk meningkatkan efisiensi bahan bakar dan rute berdasarkan deskripsi berikut: "${userPrompt}". Identifikasi pola yang mungkin suboptimal dan berikan tips praktis.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    fuelEfficiencyContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    fuelEfficiencyContentDiv.textContent = 'Maaf, tidak dapat menganalisis efisiensi bahan bakar. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for fuel efficiency:", error);
+                fuelEfficiencyContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingFuelEfficiencyDiv.classList.add('hidden');
+            }
+        });
+
+
+        // Gemini API Integration - Cilico CM550X Error Code Explainer
+        const explainCilicoErrorBtn = document.getElementById('explainCilicoError');
+        const cilicoErrorCodeInput = document.getElementById('cilicoErrorCodeInput');
+        const cilicoErrorExplanationResult = document.getElementById('cilicoErrorExplanationResult');
+        const loadingCilicoError = document.getElementById('loadingCilicoError');
+        const cilicoErrorResultContent = document.getElementById('cilicoErrorResultContent');
+
+        explainCilicoErrorBtn.addEventListener('click', async () => {
+            const errorCode = cilicoErrorCodeInput.value.trim();
+            if (errorCode === "") {
+                cilicoErrorExplanationResult.classList.remove('hidden');
+                cilicoErrorResultContent.textContent = 'Harap masukkan kode error atau deskripsi masalah.';
+                return;
+            }
+
+            cilicoErrorExplanationResult.classList.remove('hidden');
+            loadingCilicoError.classList.remove('hidden');
+            cilicoErrorResultContent.textContent = '';
+
+            const prompt = `Sebagai teknisi yang menghadapi kode error atau deskripsi masalah '${errorCode}' pada perangkat EDC Cilico CM550X, jelaskan arti dari kode error/masalah ini dan berikan langkah-langkah troubleshooting awal yang dapat saya lakukan di lapangan. Fokus pada kemungkinan penyebab terkait konektivitas (4G/Wi-Fi), pembaca kartu (NFC/Scan), printer, atau masalah perangkat keras umum.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    cilicoErrorResultContent.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    cilicoErrorResultContent.textContent = 'Maaf, tidak dapat menganalisis masalah. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for Cilico error explanation:", error);
+                cilicoErrorResultContent.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingCilicoError.classList.add('hidden');
+            }
+        });
+
+        // Gemini API Integration - Cilico CM550X Configuration Tips
+        const getCilicoConfigSuggestionBtn = document.getElementById('getCilicoConfigSuggestion');
+        const cilicoConfigPromptInput = document.getElementById('cilicoConfigPrompt');
+        const cilicoConfigResultDiv = document.getElementById('cilicoConfigResult');
+        const loadingCilicoConfigDiv = document.getElementById('loadingCilicoConfig');
+        const cilicoConfigResultContentDiv = document.getElementById('cilicoConfigResultContent');
+
+        getCilicoConfigSuggestionBtn.addEventListener('click', async () => {
+            const userPrompt = cilicoConfigPromptInput.value.trim();
+            if (userPrompt === "") {
+                cilicoConfigResultDiv.classList.remove('hidden');
+                cilicoConfigResultContentDiv.textContent = 'Harap tanyakan tentang konfigurasi yang Anda butuhkan.';
+                return;
+            }
+
+            cilicoConfigResultDiv.classList.remove('hidden');
+            loadingCilicoConfigDiv.classList.remove('hidden');
+            cilicoConfigResultContentDiv.textContent = '';
+
+            const prompt = `Sebagai ahli konfigurasi perangkat EDC Cilico CM550X, berikan saran konfigurasi atau best practice untuk "${userPrompt}". Fokus pada pengaturan penting yang sering diubah atau dioptimalkan, seperti konfigurasi Wi-Fi, jaringan 4G, atau pengaturan pemindai barcode.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    cilicoConfigResultContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    cilicoConfigResultContentDiv.textContent = 'Maaf, tidak dapat menghasilkan saran konfigurasi. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for Cilico config:", error);
+                cilicoConfigResultContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingCilicoConfigDiv.classList.add('hidden');
+            }
+        });
+
+        // Gemini API Integration - Cilico CM550X Daily Transaction Data Summary
+        const getDailyCilicoTransactionSummaryBtn = document.getElementById('getDailyCilicoTransactionSummary');
+        const cilicoTransactionSummaryPromptInput = document.getElementById('cilicoTransactionSummaryPrompt');
+        const cilicoTransactionSummaryResultDiv = document.getElementById('cilicoTransactionSummaryResult');
+        const loadingCilicoTransactionSummaryDiv = document.getElementById('loadingCilicoTransactionSummary');
+        const cilicoTransactionSummaryContentDiv = document.getElementById('cilicoTransactionSummaryContent');
+
+        getDailyCilicoTransactionSummaryBtn.addEventListener('click', async () => {
+            const userPrompt = cilicoTransactionSummaryPromptInput.value.trim();
+            if (userPrompt === "") {
+                cilicoTransactionSummaryResultDiv.classList.remove('hidden');
+                cilicoTransactionSummaryContentDiv.textContent = 'Harap masukkan data transaksi harian untuk diringkas.';
+                return;
+            }
+
+            cilicoTransactionSummaryResultDiv.classList.remove('hidden');
+            loadingCilicoTransactionSummaryDiv.classList.remove('hidden');
+            cilicoTransactionSummaryContentDiv.textContent = '';
+
+            const prompt = `Saya memiliki data transaksi harian dari perangkat EDC bus Cilico CM550X. Data mentahnya adalah: "${userPrompt}". Sebagai analis data, berikan ringkasan kinerja transaksi untuk hari ini, termasuk total transaksi, distribusi jenis pembayaran (misalnya, NFC, QR, Chip, Scan Barcode), dan wawasan singkat yang relevan. Format dalam poin-poin atau paragraf singkat.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    cilicoTransactionSummaryContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    cilicoTransactionSummaryContentDiv.textContent = 'Maaf, tidak dapat meringkas data transaksi. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for Cilico transaction summary:", error);
+                cilicoTransactionSummaryContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingCilicoTransactionSummaryDiv.classList.add('hidden');
+            }
+        });
+
+        // NEW: Gemini API Integration - Saran Penempatan Optimal Perangkat Cilico CM550X
+        const getCilicoPlacementSuggestionBtn = document.getElementById('getCilicoPlacementSuggestion');
+        const cilicoPlacementPromptInput = document.getElementById('cilicoPlacementPrompt');
+        const cilicoPlacementResultDiv = document.getElementById('cilicoPlacementResult');
+        const loadingCilicoPlacementDiv = document.getElementById('loadingCilicoPlacement');
+        const cilicoPlacementContentDiv = document.getElementById('cilicoPlacementContent');
+
+        getCilicoPlacementSuggestionBtn.addEventListener('click', async () => {
+            const userPrompt = cilicoPlacementPromptInput.value.trim();
+            if (userPrompt === "") {
+                cilicoPlacementResultDiv.classList.remove('hidden');
+                cilicoPlacementContentDiv.textContent = 'Harap jelaskan lokasi penempatan yang ingin Anda pertimbangkan.';
+                return;
+            }
+
+            cilicoPlacementResultDiv.classList.remove('hidden');
+            loadingCilicoPlacementDiv.classList.remove('hidden');
+            cilicoPlacementContentDiv.textContent = '';
+
+            const prompt = `Sebagai ahli pemasangan perangkat di transportasi publik, berikan saran penempatan optimal untuk perangkat EDC Cilico CM550X di dalam bus berdasarkan deskripsi lokasi berikut: "${userPrompt}". Pertimbangkan faktor aksesibilitas penumpang, visibilitas layar, kekuatan sinyal (WiFi/4G), keamanan, dan kemudahan perawatan.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    cilicoPlacementContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    cilicoPlacementContentDiv.textContent = 'Maaf, tidak dapat menghasilkan saran penempatan. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for Cilico placement:", error);
+                cilicoPlacementContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingCilicoPlacementDiv.classList.add('hidden');
+            }
+        });
+
+
+        // Gemini API Integration - HCCTG P18-Q Error Code Explainer
+        const explainHcctgErrorBtn = document.getElementById('explainHcctgError');
+        const hcctgErrorCodeInput = document.getElementById('hcctgErrorCodeInput');
+        const hcctgErrorExplanationResult = document.getElementById('hcctgErrorExplanationResult');
+        const loadingHcctgError = document.getElementById('loadingHcctgError');
+        const hcctgErrorResultContent = document.getElementById('hcctgErrorResultContent');
+
+        explainHcctgErrorBtn.addEventListener('click', async () => {
+            const errorCode = hcctgErrorCodeInput.value.trim();
+            if (errorCode === "") {
+                hcctgErrorExplanationResult.classList.remove('hidden');
+                hcctgErrorResultContent.textContent = 'Harap masukkan kode error atau deskripsi masalah.';
+                return;
+            }
+
+            hcctgErrorExplanationResult.classList.remove('hidden');
+            loadingHcctgError.classList.remove('hidden');
+            hcctgErrorResultContent.textContent = '';
+
+            const prompt = `Sebagai teknisi yang menghadapi kode error atau deskripsi masalah '${errorCode}' pada perangkat validator tiket bus HCCTG P18-Q, jelaskan arti dari kode error/masalah ini dan berikan langkah-langkah troubleshooting awal yang dapat saya lakukan di lapangan. Fokus pada kemungkinan penyebab terkait konektivitas (4G/Wi-Fi), pembaca kartu (NFC/IC/QR), atau masalah perangkat keras umum.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    hcctgErrorResultContent.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    hcctgErrorResultContent.textContent = 'Maaf, tidak dapat menganalisis masalah. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for HCCTG error explanation:", error);
+                hcctgErrorResultContent.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingHcctgError.classList.add('hidden');
+            }
+        });
+
+        // Gemini API Integration - HCCTG P18-Q Configuration Tips
+        const getHcctgConfigSuggestionBtn = document.getElementById('getHcctgConfigSuggestion');
+        const hcctgConfigPromptInput = document.getElementById('hcctgConfigPrompt');
+        const hcctgConfigResultDiv = document.getElementById('hcctgConfigResult');
+        const loadingHcctgConfigDiv = document.getElementById('loadingHcctgConfig');
+        const hcctgConfigResultContentDiv = document.getElementById('hcctgConfigResultContent');
+
+        getHcctgConfigSuggestionBtn.addEventListener('click', async () => {
+            const userPrompt = hcctgConfigPromptInput.value.trim();
+            if (userPrompt === "") {
+                hcctgConfigResultDiv.classList.remove('hidden');
+                hcctgConfigResultContentDiv.textContent = 'Harap tanyakan tentang konfigurasi yang Anda butuhkan.';
+                return;
+            }
+
+            hcctgConfigResultDiv.classList.remove('hidden');
+            loadingHcctgConfigDiv.classList.remove('hidden');
+            hcctgConfigResultContentDiv.textContent = '';
+
+            const prompt = `Sebagai ahli konfigurasi perangkat EDC HCCTG P18-Q, berikan saran konfigurasi atau best practice untuk "${userPrompt}". Fokus pada pengaturan penting yang sering diubah atau dioptimalkan, seperti konfigurasi koneksi 4G/Wi-Fi, pembaca kartu, atau fitur GPS.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    hcctgConfigResultContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    hcctgConfigResultContentDiv.textContent = 'Maaf, tidak dapat menghasilkan saran konfigurasi. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for HCCTG config:", error);
+                hcctgConfigResultContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingHcctgConfigDiv.classList.add('hidden');
+            }
+        });
+
+        // Gemini API Integration - HCCTG P18-Q Daily Transaction Data Summary
+        const getDailyHcctgTransactionSummaryBtn = document.getElementById('getDailyHcctgTransactionSummary');
+        const hcctgTransactionSummaryPromptInput = document.getElementById('hcctgTransactionSummaryPrompt');
+        const hcctgTransactionSummaryResultDiv = document.getElementById('hcctgTransactionSummaryResult');
+        const loadingHcctgTransactionSummaryDiv = document.getElementById('loadingHcctgTransactionSummary');
+        const hcctgTransactionSummaryContentDiv = document = document.getElementById('hcctgTransactionSummaryContent');
+
+        getDailyHcctgTransactionSummaryBtn.addEventListener('click', async () => {
+            const userPrompt = hcctgTransactionSummaryPromptInput.value.trim();
+            if (userPrompt === "") {
+                hcctgTransactionSummaryResultDiv.classList.remove('hidden');
+                hcctgTransactionSummaryContentDiv.textContent = 'Harap masukkan data transaksi harian untuk diringkas.';
+                return;
+            }
+
+            hcctgTransactionSummaryResultDiv.classList.remove('hidden');
+            loadingHcctgTransactionSummaryDiv.classList.remove('hidden');
+            hcctgTransactionSummaryContentDiv.textContent = '';
+
+            const prompt = `Saya memiliki data transaksi harian dari perangkat EDC bus HCCTG P18-Q. Data mentahnya adalah: "${userPrompt}". Sebagai analis data, berikan ringkasan kinerja transaksi untuk hari ini, termasuk total transaksi, distribusi jenis pembayaran (misalnya, NFC, IC, Magnetik, Scan Barcode), dan wawasan singkat yang relevan. Format dalam poin-poin atau paragraf singkat.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    hcctgTransactionSummaryContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    hcctgTransactionSummaryContentDiv.textContent = 'Maaf, tidak dapat meringkas data transaksi. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for HCCTG transaction summary:", error);
+                hcctgTransactionSummaryContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingHcctgTransactionSummaryDiv.classList.add('hidden');
+            }
+        });
+
+        // NEW: Gemini API Integration - Saran Optimalisasi Pencetakan Tiket P18-Q
+        const getHcctgPrintingOptimizationBtn = document.getElementById('getHcctgPrintingOptimization');
+        const hcctgPrintingOptimizationPromptInput = document.getElementById('hcctgPrintingOptimizationPrompt');
+        const hcctgPrintingOptimizationResultDiv = document.getElementById('hcctgPrintingOptimizationResult');
+        const loadingHcctgPrintingOptimizationDiv = document.getElementById('loadingHcctgPrintingOptimization');
+        const hcctgPrintingOptimizationContentDiv = document.getElementById('hcctgPrintingOptimizationContent');
+
+        getHcctgPrintingOptimizationBtn.addEventListener('click', async () => {
+            const userPrompt = hcctgPrintingOptimizationPromptInput.value.trim();
+            if (userPrompt === "") {
+                hcctgPrintingOptimizationResultDiv.classList.remove('hidden');
+                hcctgPrintingOptimizationContentDiv.textContent = 'Harap jelaskan masalah pencetakan atau kebutuhan optimalisasi Anda.';
+                return;
+            }
+
+            hcctgPrintingOptimizationResultDiv.classList.remove('hidden');
+            loadingHcctgPrintingOptimizationDiv.classList.remove('hidden');
+            hcctgPrintingOptimizationContentDiv.textContent = '';
+
+            const prompt = `Sebagai ahli perangkat TOB, berikan saran optimalisasi pencetakan tiket atau langkah-langkah troubleshooting untuk printer pada perangkat HCCTG P18-Q dengan masalah/kebutuhan berikut: "${userPrompt}". Fokus pada tips perawatan, kalibrasi, atau pengaturan yang dapat meningkatkan kualitas cetak dan mengurangi masalah.`;
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+
+            try {
+                const response = await fetch(GEMINI_API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    hcctgPrintingOptimizationContentDiv.textContent = result.candidates[0].content.parts[0].text;
+                } else {
+                    hcctgPrintingOptimizationContentDiv.textContent = 'Maaf, tidak dapat menghasilkan saran optimalisasi. Silakan coba lagi.';
+                }
+            } catch (error) {
+                console.error("Error calling Gemini API for HCCTG printing optimization:", error);
+                hcctgPrintingOptimizationContentDiv.textContent = 'Terjadi kesalahan saat menghubungi API. Silakan coba lagi.';
+            } finally {
+                loadingHcctgPrintingOptimizationDiv.classList.add('hidden');
             }
         });
     </script>
 
 </body>
 </html>
-�
